@@ -263,9 +263,12 @@ void Platform_Delay (INT32 ms)
 
 void Platform_GetTimeOfDay (INT32 *sec, INT32 *usec)
 {
-	Platform_getLocalTime();
-	Platform_stToFt();
-	Platform_ftToUli();
+    SYSTEMTIME st; 
+    FILETIME ft; 
+    ULARGE_INTEGER ul;
+    GetLocalTime(&st);
+    SystemTimeToFileTime(&st, &ft);
+    ul.LowPart=ft.dwLowDateTime; ul.HighPart=ft.dwHighDateTime;
 	Platform_tous1970();
 	*sec = Platform_ulSec();
 	*usec = Platform_uluSec();
@@ -274,10 +277,11 @@ void Platform_GetTimeOfDay (INT32 *sec, INT32 *usec)
 INT16 Platform_System (CHAR *cmd, ADDRESS cmd__len)
 {
 	INT16 result;
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
 	__DUP(cmd, cmd__len, CHAR);
 	result = 127;
-	Platform_startupInfo();
-	Platform_processInfo();
+    si.cb = sizeof(si);
 	if (Platform_createProcess(cmd, cmd__len) != 0) {
 		if (Platform_waitForProcess() == 0) {
 			Platform_getExitCodeProcess(&result);
@@ -390,8 +394,9 @@ void Platform_SetMTime (Platform_FileIdentity *target, ADDRESS *target__typ, Pla
 
 void Platform_MTimeAsClock (Platform_FileIdentity i, INT32 *t, INT32 *d)
 {
+    SYSTEMTIME st;
 	Platform_identityToFileTime(i);
-	Platform_fileTimeToSysTime();
+    FileTimeToSystemTime(&ft, &st);
 	Platform_YMDHMStoClock(Platform_styear(), Platform_stmon(), Platform_stmday(), Platform_sthour(), Platform_stmin(), Platform_stsec(), &*t, &*d);
 }
 

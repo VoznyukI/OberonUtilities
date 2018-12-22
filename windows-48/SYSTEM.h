@@ -116,13 +116,13 @@ extern void Modules_AssertFail(INT32 x);
 
 // Index checking
 
-static inline INT64 __XF(UINT64 i, UINT64 ub) {if (i >= ub) {__HALT(-2);} return i;}
+static INT64 __XF(UINT64 i, UINT64 ub) {if (i >= ub) {__HALT(-2);} return i;}
 #define __X(i, ub) (((i)<(ub))?i:(__HALT(-2),0))
 
 
 // Range checking, and checked SHORT and CHR functions
 
-static inline INT64 __RF(UINT64 i, UINT64 ub) {if (i >= ub) {__HALT(-8);} return i;}
+static INT64 __RF(UINT64 i, UINT64 ub) {if (i >= ub) {__HALT(-8);} return i;}
 #define __R(i, ub)      (((i)<(ub))?i:(__HALT(-8),0))
 #define __SHORT(x, ub)  ((int)((UINT64)(x)+(ub)<(ub)+(ub)?(x):(__HALT(-8),0)))
 #define __SHORTF(x, ub) ((int)(__RF((x)+(ub),(ub)+(ub))-(ub)))
@@ -144,7 +144,7 @@ static inline INT64 __RF(UINT64 i, UINT64 ub) {if (i >= ub) {__HALT(-8);} return
 
 // String comparison
 
-static inline int __str_cmp(CHAR *x, CHAR *y){
+static int __str_cmp(CHAR *x, CHAR *y){
   INT64 i = 0;
   CHAR ch1, ch2;
   do {ch1 = x[i]; ch2 = y[i]; i++;
@@ -183,7 +183,7 @@ static inline int __str_cmp(CHAR *x, CHAR *y){
 #define __ASHL(x, n)    ((INT64)(x)<<(n))
 #define __ASHR(x, n)    ((INT64)(x)>>(n))
 #define __ASH(x, n)     ((n)>=0?__ASHL(x,n):__ASHR(x,-(n)))
-static inline INT64 SYSTEM_ASH(INT64 x, INT64 n) {return __ASH(x,n);}
+static INT64 SYSTEM_ASH(INT64 x, INT64 n) {return __ASH(x,n);}
 #define __ASHF(x, n)    SYSTEM_ASH((INT64)(x), (INT64)(n))
 
 #define __MOVE(s, d, n) memcpy((char*)(ADDRESS)(d),(char*)(ADDRESS)(s),n)
@@ -205,11 +205,11 @@ extern INT64 SYSTEM_ENTIER (double x);
 
 #define __ABS(x) (((x)<0)?-(x):(x))
 
-static inline INT32 SYSTEM_ABS64(INT64 i) {return i >= 0 ? i : -i;}
-static inline INT64 SYSTEM_ABS32(INT32 i) {return i >= 0 ? i : -i;}
+static INT32 SYSTEM_ABS64(INT64 i) {return i >= 0 ? i : -i;}
+static INT64 SYSTEM_ABS32(INT32 i) {return i >= 0 ? i : -i;}
 #define __ABSF(x) ((sizeof(x) <= 4) ? SYSTEM_ABS32(x) : SYSTEM_ABS64(x))
 
-static inline double SYSTEM_ABSD(double i) {return i >= 0.0 ? i : -i;}
+static double SYSTEM_ABSD(double i) {return i >= 0.0 ? i : -i;}
 #define __ABSFD(x) SYSTEM_ABSD(x)
 
 #define __CAP(ch)       ((CHAR)((ch)&0x5f))

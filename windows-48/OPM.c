@@ -104,6 +104,11 @@ export BOOLEAN OPM_eofSF (void);
 export void OPM_err (INT16 n);
 
 #define OPM_GetAlignment(a)	struct {char c; long long l;} _s; *a = (char*)&_s.l - (char*)&_s
+struct 
+{
+    char c; 
+    long long l;
+} _s; 
 
 void OPM_LogW (CHAR ch)
 {
@@ -363,7 +368,7 @@ BOOLEAN OPM_OpenPar (void)
 		return 0;
 	} else {
 		OPM_AddressSize = 4;
-		OPM_GetAlignment(&OPM_Alignment);
+        *&OPM_Alignment = (char*)&_s.l - (char*)&_s;
 		__MOVE("2", OPM_Model, 2);
 		OPM_Options = 0xa9;
 		OPM_S = 1;
