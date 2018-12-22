@@ -924,7 +924,7 @@ static void OPB_ConstOp (INT16 op, OPT_Node x, OPT_Node y)
 					xval->intval = xv * yv;
 					OPB_SetIntType(x);
 				} else {
-					OPB_err(204);
+					OPB_err(-311);
 				}
 			} else if (__IN(f, 0x60, 32)) {
 				temp = __ABS(yval->realval) <= (LONGREAL)1;
@@ -1114,7 +1114,7 @@ static void OPB_Convert (OPT_Node *x, OPT_Struct typ)
 				if ((*x)->typ->size > typ->size) {
 					OPB_SetIntType(*x);
 					if ((*x)->typ->size > typ->size) {
-						OPB_err(203);
+						OPB_err(-311);
 						(*x)->conval->intval = 1;
 					}
 				}
@@ -1572,7 +1572,7 @@ static void OPB_CheckAssign (OPT_Struct x, OPT_Node ynode)
 			break;
 		case 4: case 7: 
 			if (g != f || x->size < y->size) {
-				OPB_err(113);
+				OPB_err(-311);
 			}
 			break;
 		case 5: 
