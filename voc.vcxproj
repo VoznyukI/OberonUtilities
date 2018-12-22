@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{56D97D8F-07BD-4B3B-8C3E-575F2E2B8AD7}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>voc</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="windows-48\Compiler.c" />
+    <ClCompile Include="windows-48\Configuration.c" />
+    <ClCompile Include="windows-48\extTools.c" />
+    <ClCompile Include="windows-48\Files.c" />
+    <ClCompile Include="windows-48\Heap.c" />
+    <ClCompile Include="windows-48\Modules.c" />
+    <ClCompile Include="windows-48\OPB.c" />
+    <ClCompile Include="windows-48\OPC.c" />
+    <ClCompile Include="windows-48\OPM.c" />
+    <ClCompile Include="windows-48\OPP.c" />
+    <ClCompile Include="windows-48\OPS.c" />
+    <ClCompile Include="windows-48\OPT.c" />
+    <ClCompile Include="windows-48\OPV.c" />
+    <ClCompile Include="windows-48\Out.c" />
+    <ClCompile Include="windows-48\Platform.c" />
+    <ClCompile Include="windows-48\Reals.c" />
+    <ClCompile Include="windows-48\Strings.c" />
+    <ClCompile Include="windows-48\SYSTEM.c" />
+    <ClCompile Include="windows-48\Texts.c" />
+    <ClCompile Include="windows-48\VT100.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="windows-48\Configuration.h" />
+    <ClInclude Include="windows-48\extTools.h" />
+    <ClInclude Include="windows-48\Files.h" />
+    <ClInclude Include="windows-48\Heap.h" />
+    <ClInclude Include="windows-48\Modules.h" />
+    <ClInclude Include="windows-48\OPB.h" />
+    <ClInclude Include="windows-48\OPC.h" />
+    <ClInclude Include="windows-48\OPM.h" />
+    <ClInclude Include="windows-48\OPP.h" />
+    <ClInclude Include="windows-48\OPS.h" />
+    <ClInclude Include="windows-48\OPT.h" />
+    <ClInclude Include="windows-48\OPV.h" />
+    <ClInclude Include="windows-48\Out.h" />
+    <ClInclude Include="windows-48\Platform.h" />
+    <ClInclude Include="windows-48\Reals.h" />
+    <ClInclude Include="windows-48\Strings.h" />
+    <ClInclude Include="windows-48\SYSTEM.h" />
+    <ClInclude Include="windows-48\Texts.h" />
+    <ClInclude Include="windows-48\VT100.h" />
+    <ClInclude Include="windows-48\WindowsWrapper.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

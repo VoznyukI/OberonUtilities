@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="windows-48\Compiler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\Configuration.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\extTools.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\Files.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\Heap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\Modules.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\OPB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\OPC.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\OPM.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\OPP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\OPS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\OPT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\OPV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\Out.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\Platform.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\Reals.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\Strings.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\SYSTEM.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\Texts.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows-48\VT100.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="windows-48\Configuration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\extTools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\Files.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\Heap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\Modules.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\OPB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\OPC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\OPM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\OPP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\OPS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\OPT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\OPV.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\Out.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\Platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\Reals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\Strings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\SYSTEM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\Texts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\VT100.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="windows-48\WindowsWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
