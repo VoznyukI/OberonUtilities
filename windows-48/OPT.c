@@ -2110,6 +2110,10 @@ export void *OPT__init(void)
 	OPT_EnterProc((CHAR*)"VAL", 29);
 	OPT_EnterProc((CHAR*)"NEW", 30);
 	OPT_EnterProc((CHAR*)"MOVE", 31);
+	OPT_EnterProc((CHAR*)"CLI", 33);
+	OPT_EnterProc((CHAR*)"PORTOUT", 34);
+	OPT_EnterProc((CHAR*)"PORTIN", 35);
+	OPT_EnterProc((CHAR*)"STI", 36);
 	OPT_syslink = OPT_topScope->right;
 	OPT_universe = OPT_topScope;
 	OPT_topScope->right = NIL;

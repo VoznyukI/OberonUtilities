@@ -1392,8 +1392,23 @@ static void OPV_stat (OPT_Node n, OPT_Object outerProc)
 						OPC_Ident(n->right->typ->strobj);
 						OPM_Write(')');
 						break;
-					case 26: case 27: 
-						OPM_err(200);
+					case 26: 
+						OPM_WriteString((CHAR*)"__GETREG(", 10);
+						OPV_expr(n->right, -1);
+						OPM_WriteString((CHAR*)", ", 3);
+						OPV_expr(n->left, -1);
+						OPM_WriteString((CHAR*)", ", 3);
+						OPC_Ident(n->left->typ->strobj);
+						OPM_Write(')');
+						break;
+					case 27: 
+						OPM_WriteString((CHAR*)"__PUTREG(", 10);
+						OPV_expr(n->left, -1);
+						OPM_WriteString((CHAR*)", ", 3);
+						OPV_expr(n->right, -1);
+						OPM_WriteString((CHAR*)", ", 3);
+						OPC_Ident(n->right->typ->strobj);
+						OPM_Write(')');
 						break;
 					case 30: 
 						OPM_WriteString((CHAR*)"__SYSNEW(", 10);
@@ -1401,6 +1416,30 @@ static void OPV_stat (OPT_Node n, OPT_Object outerProc)
 						OPM_WriteString((CHAR*)", ", 3);
 						OPV_expr(n->right, -1);
 						OPM_Write(')');
+						break;
+					case 33: 
+                        OPM_WriteString((CHAR*)"__CLI()", 8);
+						break;
+					case 34: 
+						OPM_WriteString((CHAR*)"__PORTOUT(", 11);
+						OPV_expr(n->left, -1);
+						OPM_WriteString((CHAR*)", ", 3);
+						OPV_expr(n->right, -1);
+						OPM_WriteString((CHAR*)", ", 3);
+						OPC_Ident(n->right->typ->strobj);
+						OPM_Write(')');
+						break;
+					case 35: 
+						OPM_WriteString((CHAR*)"__PORTIN(", 10);
+						OPV_expr(n->right, -1);
+						OPM_WriteString((CHAR*)", ", 3);
+						OPV_expr(n->left, -1);
+						OPM_WriteString((CHAR*)", ", 3);
+						OPC_Ident(n->left->typ->strobj);
+						OPM_Write(')');
+						break;
+					case 36: 
+                        OPM_WriteString((CHAR*)"__STI()", 8);
 						break;
 					default: 
 						OPM_LogWStr((CHAR*)"unhandled case in OPV.expr, n^.subcl = ", 40);

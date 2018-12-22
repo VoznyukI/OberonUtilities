@@ -1933,9 +1933,9 @@ void OPB_StPar0 (OPT_Node *par0, INT16 fctno)
 			break;
 		case 26: case 27: 
 			if ((f == 4 && x->class == 7)) {
-				if (x->conval->intval < 0 || x->conval->intval > -1) {
-					OPB_err(220);
-				}
+				//if (x->conval->intval < 0 || x->conval->intval > -1) { //TODO
+				//	OPB_err(220);
+				//}
 			} else {
 				OPB_err(69);
 			}
@@ -1964,6 +1964,16 @@ void OPB_StPar0 (OPT_Node *par0, INT16 fctno)
 				x = OPB_NewBoolConst(0);
 			} else {
 				OPB_MOp(33, &x);
+			}
+			break;
+		case 34: case 35: 
+			if (x->class == 8 || x->class == 9) {
+				OPB_err(126);
+			} else if ((((x->class == 7 && f == 4)) && x->typ->size < OPT_int16typ->size)) {
+				OPB_Convert(&x, OPT_int16typ);
+			} else if (!((__IN(x->typ->form, 0x0810, 32) && x->typ->size == OPT_int16typ->size))) {
+				//OPB_err(111); TODO
+				x->typ = OPT_int16typ;
 			}
 			break;
 		default: 
@@ -2229,6 +2239,24 @@ void OPB_StPar1 (OPT_Node *par0, OPT_Node x, INT8 fctno)
 				OPB_err(69);
 			}
 			break;
+        case 34: case 35:
+			if (x->class == 8 || x->class == 9) {
+				OPB_err(126);
+			} else if (__IN(f, 0x18ff, 32)) {
+				if (fctno == 35 ) {
+					if (OPB_NotVar(x)) {
+						OPB_err(112);
+					}
+					t = x;
+					x = p;
+					p = t;
+				}
+				p = NewOp__54(19, fctno, p, x);
+			} else {
+				OPB_err(111);
+			}
+			p->typ = OPT_notyp;
+			break;
 		default: 
 			OPB_err(64);
 			break;
@@ -2338,6 +2366,9 @@ void OPB_StFct (OPT_Node *par0, INT8 fctno, INT16 parno)
 		} else if (parno < 1) {
 			OPB_err(65);
 		}
+	} else if (fctno == 33 || fctno == 36 ) { // CLI || STI
+        p->class = 19;
+        p->subcl = fctno;
 	} else {
 		if ((parno < 1 || (fctno > 21 && parno < 2)) || (fctno == 31 && parno < 3)) {
 			OPB_err(65);
