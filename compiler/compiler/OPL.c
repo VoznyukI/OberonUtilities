@@ -1166,6 +1166,7 @@ static void OPL_Flags (OPL_Instruction *instr, ADDRESS *instr__typ)
 	op = (INT8)__ASHR((*instr).op, 5);
 	mode = (INT8)__MASK(__ASHR((*instr).op, 3), -4);
 	size = __ASHL((INT8)__MASK((*instr).op, -8), 3);
+    scale = instr->scale; // TODO
 	if (mode != 3) {
 		if (!OPL_loaded((*instr).src1)) {
 			if (!OPL_loaded((*instr).src2)) {
@@ -1302,6 +1303,8 @@ static void OPL_GenDivMod (OPL_Instruction *instr, ADDRESS *instr__typ)
 	INT32 disp, pRegBase, pRegInx;
 	size = __ASHL((INT8)__MASK((*instr).op, -8), 3);
 	mode = (INT8)__MASK(__ASHR((*instr).op, 3), -4);
+    disp = 0; //TODO
+    scale = instr->scale; // TODO
 	if ((size != 16 && OPL_regTab[2] == -1)) {
 		OPL_regTab[2] = (-32767-1);
 	}
@@ -2279,6 +2282,10 @@ static void OPL_GenEnter (INT32 locSize, OPT_Object locals, INT8 sysflag)
 	BOOLEAN first;
 	INT32 enoff, ensize, last;
 	struct GenEnter__52 _s;
+
+    first = 0; //TODO
+//    first = 1; //TODO
+
 	_s.first = &first;
 	_s.enoff = &enoff;
 	_s.ensize = &ensize;
@@ -2588,7 +2595,7 @@ static void MarkPos__49 (void);
 static void MarkPos__49 (void)
 {
 	INT32 j;
-	if (OPL_mapSize < 0) {
+	if (OPL_mapSize < OPL_map->len[0]) {
 		(OPL_map->data)[__X(OPL_mapSize, OPL_map->len[0])].pos = (OPL_Instr->data)[__X(*GenCode__48_s->i, OPL_Instr->len[0])].src1;
 		(OPL_map->data)[__X(OPL_mapSize, OPL_map->len[0])].pc = OPO_pc;
 		j = OPL_mapSize - 1;
@@ -2888,10 +2895,11 @@ void OPL_NewVarCons (INT16 mod, INT16 entry, INT32 *index)
 {
 	INT32 i;
 	OPL_VarConsTable var;
-	if (OPL_nofVarCons >= 0) {
-		var = __NEWARR(NIL, 8, 2, 1, 1, 2);
+    if (OPL_nofVarCons >= OPL_varConsLink->len[ 0 ] ) {
+		var = __NEWARR(NIL, 8, 2, 1, 1, 2 * OPL_varConsLink->len[ 0 ] );
 		i = 0;
-		while (i <= 0) {
+
+        while (i <=  OPL_varConsLink->len[ 0 ] - 1 ) {
 			(var->data)[__X(i, var->len[0])] = (OPL_varConsLink->data)[__X(i, OPL_varConsLink->len[0])];
 			i += 1;
 		}
@@ -2909,10 +2917,12 @@ static void OPL_VarConsLink (INT32 index, INT32 offset)
 {
 	INT32 i;
 	OPL_VarConsLinkTable var;
-	if (OPL_nofVarConsLinks >= 1) {
-		var = __NEWARR(NIL, 4, 2, 1, 1, 2);
+
+    if (OPL_nofVarConsLinks >= OPL_varConsTab->len[ 0 ] ) {
+
+        var = __NEWARR(NIL, 4, 2, 1, 1, 2 * OPL_varConsTab->len[ 0 ] );
 		i = 0;
-		while (i <= 0) {
+        while (i <= OPL_varConsTab->len[ 0 ] - 1 ) {
 			(var->data)[__X(i, var->len[0])] = (OPL_varConsTab->data)[__X(i, OPL_varConsTab->len[0])];
 			i += 1;
 		}
@@ -2955,10 +2965,10 @@ void OPL_NewEntry (INT32 *entryNr)
 {
 	OPL_EntryTable table;
 	INT32 i;
-	if (OPL_nofEntries >= 1) {
-		table = __NEWARR(NIL, 2, 2, 1, 1, 2);
+    if (OPL_nofEntries >= OPL_entry->len[ 0 ] ) {
+        table = __NEWARR(NIL, 2, 2, 1, 1, 2 * OPL_entry->len[ 0 ] );
 		i = 0;
-		while (i <= 0) {
+        while (i <= OPL_entry->len[ 0 ] - 1 ) {
 			(table->data)[__X(i, table->len[0])] = (OPL_entry->data)[__X(i, OPL_entry->len[0])];
 			i += 1;
 		}
@@ -3016,8 +3026,8 @@ void OPL_AllocConst (SYSTEM_BYTE *s, ADDRESS s__len, INT32 len, INT32 align, INT
 			OPM_err(230);
 			OPL_ConstErr = 1;
 		} else {
-			if (OPO_csize + fill >= 1) {
-				table = __NEWARR(NIL, 1, 1, 1, 1, 2);
+            if (OPO_csize + fill >= OPO_constant->len[ 0 ] ) {
+                table = __NEWARR(NIL, 1, 1, 1, 1, 2 * OPO_constant->len[ 0 ] );
 				__MOVE((ADDRESS)&(OPO_constant->data)[0], (ADDRESS)&(table->data)[0], *adr);
 				OPO_constant = table;
 			}
@@ -3045,8 +3055,8 @@ void OPL_AllocCaseTab (INT32 low, INT32 high, INT32 *tab)
 			OPM_err(230);
 			OPL_ConstErr = 1;
 		} else {
-			if (OPO_csize >= 1) {
-				table = __NEWARR(NIL, 1, 1, 1, 1, 2);
+            if (OPO_csize >= OPO_constant->len[ 0 ] ) {
+				table = __NEWARR(NIL, 1, 1, 1, 1, 2 * OPO_constant->len[ 0 ] );
 				__MOVE((ADDRESS)&(OPO_constant->data)[0], (ADDRESS)&(table->data)[0], *tab);
 				OPO_constant = table;
 			}
@@ -3072,10 +3082,10 @@ void OPL_AllocTypDesc (OPT_Struct typ)
 		if (typ->extlev > 15) {
 			OPM_err(233);
 		} else if (typ->mno == 0) {
-			if (OPL_nofrecs >= 1) {
-				table = __NEWARR(POINTER__typ, 4, 4, 1, 1, 2);
+            if (OPL_nofrecs >= OPL_recTab->len[ 0 ] ) {
+				table = __NEWARR(POINTER__typ, 4, 4, 1, 1, 2 * OPL_recTab->len[ 0 ] );
 				i = 0;
-				while (i <= 0) {
+                while ( i <= OPL_recTab->len[ 0 ] - 1 ) {
 					(table->data)[__X(i, table->len[0])] = (OPL_recTab->data)[__X(i, OPL_recTab->len[0])];
 					i += 1;
 				}
@@ -3275,9 +3285,9 @@ static void OPL_Export (OPT_Object obj, INT16 *nofExp)
 					}
 					i += 1;
 				}
-				if (OPL_exppos == 1) {
-					tmp = __NEWARR(NIL, 4, 4, 1, 1, 33);
-					__MOVE((ADDRESS)&(OPL_explist->data)[0], (ADDRESS)&(tmp->data)[0], 4);
+                if (OPL_exppos == OPL_explist->len[ 0 ] ) {
+                    tmp = __NEWARR(NIL, 4, 4, 1, 1, 32 + OPL_explist->len[ 0 ] );
+					__MOVE((ADDRESS)&(OPL_explist->data)[0], (ADDRESS)&(tmp->data)[0], 4 * OPL_explist->len[ 0 ]); //TODO
 					OPL_explist = tmp;
 				}
 				(OPL_explist->data)[__X(OPL_exppos, OPL_explist->len[0])] = obj->fp;
@@ -3419,10 +3429,10 @@ static void Add__97 (INT32 adr);
 static void Add__97 (INT32 adr)
 {
 	OPL_PtrTable table;
-	if (OPL_nofptrs >= 1) {
-		table = __NEWARR(NIL, 4, 4, 1, 1, 2);
+    if (OPL_nofptrs >= OPL_ptrTab->len[ 0 ] ) {
+		table = __NEWARR(NIL, 4, 4, 1, 1, 2 * OPL_ptrTab->len[ 0 ] );
 		*FindPtrs__95__96_s->i = 0;
-		while (*FindPtrs__95__96_s->i <= 0) {
+		while (*FindPtrs__95__96_s->i <= OPL_ptrTab->len[ 0 ] - 1 ) {
 			(table->data)[__X(*FindPtrs__95__96_s->i, table->len[0])] = (OPL_ptrTab->data)[__X(*FindPtrs__95__96_s->i, OPL_ptrTab->len[0])];
 			*FindPtrs__95__96_s->i += 1;
 		}
@@ -3546,6 +3556,11 @@ void OPL_OutCode (CHAR *modName, ADDRESS modName__len)
 	_s.lnk = OutCode__92_s;
 	OutCode__92_s = &_s;
 	linkCorrection = 0;
+
+    //TODO
+    for ( i = 0; i < 128; ++i )
+        modMap[ i ] = 0;
+
 	i = 0;
 	while (i < OPL_nofLinks) {
 		if (OPL_link[__X(i, 512)].offset == -1 || OPL_link[__X(i, 512)].mod > 0) {
@@ -3737,12 +3752,12 @@ void OPL_Close (void)
 {
 	INT32 i;
 	i = 0;
-	while (i <= 0) {
+    while (i <= OPL_Instr->len[ 0 ] ) {
 		(OPL_Instr->data)[__X(i, OPL_Instr->len[0])].node = NIL;
 		i += 1;
 	}
 	i = 0;
-	while (i < 1) {
+    while ( i < OPL_recTab->len[ 0 ] ) {
 		(OPL_recTab->data)[__X(i, OPL_recTab->len[0])] = NIL;
 		i += 1;
 	}

@@ -196,10 +196,12 @@ static void OPC_InitInstr (INT16 op, INT8 mode, INT8 form, OPT_Node node)
 {
 	INT32 i;
 	OPL_InstructionTable instr;
-	if (OPC_pc >= 1) {
-		instr = __NEWARR(OPL_Instruction__typ, 40, 4, 1, 1, 2);
+    if (OPC_pc >= OPL_Instr->len[ 0 ] ) {
+
+		instr = __NEWARR(OPL_Instruction__typ, 40, 4, 1, 1, 2 * OPL_Instr->len[ 0 ] ); //TODO test it
+
 		i = 0;
-		while (i <= 0) {
+		while (i <= OPL_Instr->len[ 0 ] - 1) {
 			(instr->data)[__X(i, instr->len[0])] = (OPL_Instr->data)[__X(i, OPL_Instr->len[0])];
 			i += 1;
 		}
@@ -1764,9 +1766,9 @@ void OPC_SYSmop (OPC_Item *z, ADDRESS *z__typ, OPC_Item *x, ADDRESS *x__typ, INT
 				(*z).descReg = t.adr;
 				(*z).typ = typ;
 			}
-			if (((*z).typ->size != typ->size && ((*x).mode != 3 || typ->size > 4))) {
-				OPM_err(-304);
-			}
+			//if (((*z).typ->size != typ->size && ((*x).mode != 3 || typ->size > 4))) { //TODO
+			//	OPM_err(-304);
+			//}
 			(*z).typ = typ;
 			break;
 		case 30: case 31: case 32: 
@@ -2204,6 +2206,7 @@ void OPC_Index (OPC_Item *z, ADDRESS *z__typ, OPC_Item *index, ADDRESS *index__t
 	__ASSERT(__IN(check, 0x030006, 32), 100);
 	typ = (*z).typ;
 	comp = typ->comp;
+    scale = z->scale; // TODO
 	__ASSERT(__IN(comp, 0x3c, 32), 101);
 	if (((*z).descReg == -1 && comp != 2)) {
 		__ASSERT((*z).mode != 15, 102);
@@ -3748,6 +3751,7 @@ void OPC_Enter (OPT_Object proc, INT32 dataSize, OPT_Node node)
 				z.inx = t0.adr;
 				z.scale = scale;
 				z.typ = OPT_linttyp;
+                z.offs = 0; //TODO
 				OPC_loadAdr(&z, OPC_Item__typ);
 				(OPL_Instr->data)[__X(OPC_pc - 1, OPL_Instr->len[0])].hint = 4;
 				if (step != 0) {

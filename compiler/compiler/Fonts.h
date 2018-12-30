@@ -11,7 +11,7 @@ typedef
 
 typedef
 	struct Fonts_CharDesc { /* Objects_ObjDesc */
-		INT32 stamp;
+        INT32 stamp;
 		Objects_Object dlink, slink;
 		Objects_Library lib;
 		INT16 ref;
@@ -25,19 +25,24 @@ typedef
 
 typedef
 	struct Fonts_FontDesc { /* Objects_LibDesc */
-		char _prvt0[4];
+		Objects_Library next;
 		Objects_Index ind;
-		char _prvt1[32];
+		Files_File f;
+		Files_Rider R;
 		Objects_Name name;
 		Objects_Dictionary dict;
 		INT16 maxref;
-		char _prvt2[4];
+		struct {
+			ADDRESS len[1];
+			Objects_GenName data[1];
+		} *GName;
 		void (*GenRef)(Objects_Library, INT16*);
 		void (*GetObj)(Objects_Library, INT16, Objects_Object*);
 		void (*PutObj)(Objects_Library, INT16, Objects_Object);
 		void (*FreeObj)(Objects_Library, INT16);
 		void (*Load)(Objects_Library);
 		void (*Store)(Objects_Library);
+
 		INT8 type;
 		INT16 height, minX, maxX, minY, maxY;
 	} Fonts_FontDesc;

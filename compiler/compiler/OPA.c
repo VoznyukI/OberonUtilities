@@ -1648,8 +1648,8 @@ static void OPA_BodyInit (void)
 {
 	INT16 s;
 	INT32 i;
-	OFS_File f;
-	OFS_Rider r;
+	Files_File f;
+	Files_Rider r;
 	INT32 _for__5, _for__4;
 	OPM_LogWLn();
 	OPM_LogWStr((CHAR*)"  using OP2-ASM add-on / prk", 29);

@@ -19,7 +19,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -74,6 +74,60 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="compiler\Compiler.c" />
+    <ClCompile Include="compiler\Display.c" />
+    <ClCompile Include="compiler\Displays.c" />
+    <ClCompile Include="compiler\Files.c" />
+    <ClCompile Include="compiler\Fonts.c" />
+    <ClCompile Include="compiler\Heap.c" />
+    <ClCompile Include="compiler\Kernel.c" />
+    <ClCompile Include="compiler\Modules.c" />
+    <ClCompile Include="compiler\Oberon.c" />
+    <ClCompile Include="compiler\Objects.c" />
+    <ClCompile Include="compiler\OFS.c" />
+    <ClCompile Include="compiler\OPA.c" />
+    <ClCompile Include="compiler\OPB.c" />
+    <ClCompile Include="compiler\OPC.c" />
+    <ClCompile Include="compiler\OPL.c" />
+    <ClCompile Include="compiler\OPM.c" />
+    <ClCompile Include="compiler\OPO.c" />
+    <ClCompile Include="compiler\OPP.c" />
+    <ClCompile Include="compiler\OPS.c" />
+    <ClCompile Include="compiler\OPT.c" />
+    <ClCompile Include="compiler\OPV.c" />
+    <ClCompile Include="compiler\Out.c" />
+    <ClCompile Include="compiler\Platform.c" />
+    <ClCompile Include="compiler\Reals.c" />
+    <ClCompile Include="compiler\SYSTEM.c" />
+    <ClCompile Include="compiler\Texts.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="compiler\Display.h" />
+    <ClInclude Include="compiler\Displays.h" />
+    <ClInclude Include="compiler\Files.h" />
+    <ClInclude Include="compiler\Fonts.h" />
+    <ClInclude Include="compiler\Heap.h" />
+    <ClInclude Include="compiler\Kernel.h" />
+    <ClInclude Include="compiler\Modules.h" />
+    <ClInclude Include="compiler\Oberon.h" />
+    <ClInclude Include="compiler\Objects.h" />
+    <ClInclude Include="compiler\OFS.h" />
+    <ClInclude Include="compiler\OPA.h" />
+    <ClInclude Include="compiler\OPB.h" />
+    <ClInclude Include="compiler\OPC.h" />
+    <ClInclude Include="compiler\OPL.h" />
+    <ClInclude Include="compiler\OPM.h" />
+    <ClInclude Include="compiler\OPO.h" />
+    <ClInclude Include="compiler\OPP.h" />
+    <ClInclude Include="compiler\OPS.h" />
+    <ClInclude Include="compiler\OPT.h" />
+    <ClInclude Include="compiler\OPV.h" />
+    <ClInclude Include="compiler\Out.h" />
+    <ClInclude Include="compiler\Platform.h" />
+    <ClInclude Include="compiler\Reals.h" />
+    <ClInclude Include="compiler\SYSTEM.h" />
+    <ClInclude Include="compiler\Texts.h" />
+    <ClInclude Include="compiler\WindowsWrapper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

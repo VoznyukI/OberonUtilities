@@ -43,7 +43,7 @@ import void OPM_ObjWInt (INT16 i);
 import void OPM_ObjWLInt (INT32 i);
 import void OPM_ObjWNum (INT32 i);
 import void OPM_ObjWString (CHAR *s, ADDRESS s__len);
-import void OPM_OpenSym (OFS_Rider *R, ADDRESS *R__typ, CHAR *name, ADDRESS name__len, BOOLEAN self, BOOLEAN *done);
+import void OPM_OpenSym (Files_Rider *R, ADDRESS *R__typ, CHAR *name, ADDRESS name__len, BOOLEAN self, BOOLEAN *done);
 import void OPM_RefW (CHAR ch);
 import void OPM_RefWNum (INT32 i);
 import void OPM_SymW (CHAR b);

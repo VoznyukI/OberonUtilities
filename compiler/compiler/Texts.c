@@ -6,120 +6,121 @@
 #define SET      UINT32
 
 #include "SYSTEM.h"
+#include "Texts.h"
 #include "Display.h"
 #include "Files.h"
 #include "Fonts.h"
 #include "Objects.h"
 #include "Reals.h"
 
-typedef
-	struct Texts_PieceDesc *Texts_Piece;
+//typedef
+//	struct Texts_PieceDesc *Texts_Piece;
+//
+//typedef
+//	struct Texts_BufDesc {
+//		INT32 len;
+//		Texts_Piece header, last;
+//	} Texts_BufDesc;
 
-typedef
-	struct Texts_BufDesc {
-		INT32 len;
-		Texts_Piece header, last;
-	} Texts_BufDesc;
+//typedef
+//	Texts_BufDesc *Texts_Buffer;
+//
+//typedef
+//	struct Texts_TextDesc *Texts_Text;
 
-typedef
-	Texts_BufDesc *Texts_Buffer;
+//typedef
+//	struct Texts_Finder {
+//		BOOLEAN eot;
+//		INT32 pos;
+//		Texts_Text T;
+//		Texts_Piece ref;
+//	} Texts_Finder;
 
-typedef
-	struct Texts_TextDesc *Texts_Text;
+//typedef
+//	struct Texts_PieceDesc {
+//		Files_File f;
+//		INT32 off, len;
+//		Objects_Object obj;
+//		Objects_Library lib;
+//		INT16 ref;
+//		INT8 col, voff;
+//		Texts_Piece prev, next;
+//	} Texts_PieceDesc;
 
-typedef
-	struct Texts_Finder {
-		BOOLEAN eot;
-		INT32 pos;
-		Texts_Text T;
-		Texts_Piece ref;
-	} Texts_Finder;
+//typedef
+//	struct Texts_Reader {
+//		Texts_Piece ref;
+//		Texts_Text T;
+//		INT32 org, off;
+//		OFS_Rider R;
+//		INT32 stamp;
+//		CHAR buf[64];
+//		INT32 bufpos, buflen;
+//		Objects_Library lib;
+//		INT8 col, voff;
+//		BOOLEAN eot;
+//	} Texts_Reader;
+//
+//typedef
+//	struct Texts_Scanner { /* Texts_Reader */
+//		Texts_Piece ref;
+//		Texts_Text T;
+//		INT32 org, off;
+//		OFS_Rider R;
+//		INT32 stamp;
+//		CHAR buf[64];
+//		INT32 bufpos, buflen;
+//		Objects_Library lib;
+//		INT8 col, voff;
+//		BOOLEAN eot;
+//		CHAR nextCh;
+//		INT16 line, class;
+//		INT32 i;
+//		REAL x;
+//		LONGREAL y;
+//		CHAR c;
+//		INT8 len;
+//		CHAR s[64];
+//		Objects_Object obj;
+//	} Texts_Scanner;
+//
+//typedef
+//	struct Texts_TextDesc { /* Objects_ObjDesc */
+//		INT32 stamp;
+//		Objects_Object dlink, slink;
+//		Objects_Library lib;
+//		INT16 ref;
+//		Objects_Handler handle;
+//		INT32 len;
+//		Objects_Library obs;
+//		Texts_Piece trailer;
+//		INT32 org;
+//		Texts_Piece pce;
+//	} Texts_TextDesc;
 
-typedef
-	struct Texts_PieceDesc {
-		OFS_File f;
-		INT32 off, len;
-		Objects_Object obj;
-		Objects_Library lib;
-		INT16 ref;
-		INT8 col, voff;
-		Texts_Piece prev, next;
-	} Texts_PieceDesc;
-
-typedef
-	struct Texts_Reader {
-		Texts_Piece ref;
-		Texts_Text T;
-		INT32 org, off;
-		OFS_Rider R;
-		INT32 stamp;
-		CHAR buf[64];
-		INT32 bufpos, buflen;
-		Objects_Library lib;
-		INT8 col, voff;
-		BOOLEAN eot;
-	} Texts_Reader;
-
-typedef
-	struct Texts_Scanner { /* Texts_Reader */
-		Texts_Piece ref;
-		Texts_Text T;
-		INT32 org, off;
-		OFS_Rider R;
-		INT32 stamp;
-		CHAR buf[64];
-		INT32 bufpos, buflen;
-		Objects_Library lib;
-		INT8 col, voff;
-		BOOLEAN eot;
-		CHAR nextCh;
-		INT16 line, class;
-		INT32 i;
-		REAL x;
-		LONGREAL y;
-		CHAR c;
-		INT8 len;
-		CHAR s[64];
-		Objects_Object obj;
-	} Texts_Scanner;
-
-typedef
-	struct Texts_TextDesc { /* Objects_ObjDesc */
-		INT32 stamp;
-		Objects_Object dlink, slink;
-		Objects_Library lib;
-		INT16 ref;
-		Objects_Handler handle;
-		INT32 len;
-		Objects_Library obs;
-		Texts_Piece trailer;
-		INT32 org;
-		Texts_Piece pce;
-	} Texts_TextDesc;
-
-typedef
-	struct Texts_UpdateMsg { /* Display_FrameMsg */
-		INT32 stamp;
-		Objects_Object dlink;
-		Display_Frame F;
-		INT16 x, y, res;
-		Texts_Text text;
-		INT32 beg, end, len;
-	} Texts_UpdateMsg;
-
-typedef
-	struct Texts_Writer {
-		OFS_Rider R;
-		Texts_Buffer buf;
-		Objects_Library lib;
-		INT8 col, voff;
-	} Texts_Writer;
+//typedef
+//	struct Texts_UpdateMsg { /* Display_FrameMsg */
+//		INT32 stamp;
+//		Objects_Object dlink;
+//		Display_Frame F;
+//		INT16 x, y, res;
+//		Texts_Text text;
+//		INT32 beg, end, len;
+//	} Texts_UpdateMsg;
+//
+//typedef
+//	struct Texts_Writer {
+//		Files_Rider R;
+//		Texts_Buffer buf;
+//		Objects_Library lib;
+//		INT8 col, voff;
+//	} Texts_Writer;
 
 
 export CHAR Texts_TextBlockId;
 static CHAR Texts_DocBlockId, Texts_NoSpex, Texts_NoSpex2, Texts_TextSpex;
-static OFS_File Texts_Wfile;
-static OFS_Rider Texts_R;
+static Files_File Texts_Wfile;
+static Files_Rider Texts_R;
 static Texts_Buffer Texts_DelBuf;
 static Objects_Handler Texts_H;
 static BOOLEAN Texts_nameChars[256];
@@ -145,8 +146,8 @@ static void Texts_GenNew (Texts_Text T);
 export void Texts_Handle (Objects_Object obj, Objects_ObjMsg *M, ADDRESS *M__typ);
 static void Texts_InitScan (void);
 export void Texts_Insert (Texts_Text T, INT32 pos, Texts_Buffer B);
-export void Texts_Load (Texts_Text T, OFS_File f, INT32 pos, INT32 *len);
-export void Texts_LoadAscii (Texts_Text T, OFS_File f);
+export void Texts_Load (Texts_Text T, Files_File f, INT32 pos, INT32 *len);
+export void Texts_LoadAscii (Texts_Text T, Files_File f);
 export void Texts_New (void);
 export void Texts_Open (Texts_Text T, CHAR *name, ADDRESS name__len);
 export void Texts_OpenBuf (Texts_Buffer B);
@@ -156,7 +157,7 @@ export void Texts_OpenScanner (Texts_Scanner *S, ADDRESS *S__typ, Texts_Text T, 
 export void Texts_OpenWriter (Texts_Writer *W, ADDRESS *W__typ);
 export INT32 Texts_Pos (Texts_Reader *R, ADDRESS *R__typ);
 export void Texts_Read (Texts_Reader *R, ADDRESS *R__typ, CHAR *ch);
-static void Texts_ReadDocHeader (OFS_Rider *R, ADDRESS *R__typ, CHAR *ch);
+static void Texts_ReadDocHeader (Files_Rider *R, ADDRESS *R__typ, CHAR *ch);
 export void Texts_Recall (Texts_Buffer *B);
 export void Texts_Replace (Texts_Text T, INT32 beg, INT32 end, Texts_Buffer B);
 export void Texts_Save (Texts_Text T, INT32 beg, INT32 end, Texts_Buffer B);
@@ -165,7 +166,7 @@ export void Texts_SetColor (Texts_Writer *W, ADDRESS *W__typ, INT8 col);
 export void Texts_SetFont (Texts_Writer *W, ADDRESS *W__typ, Objects_Library fnt);
 export void Texts_SetOffset (Texts_Writer *W, ADDRESS *W__typ, INT8 voff);
 static void Texts_SplitPiece (Texts_Piece p, INT32 off, Texts_Piece *pr);
-export void Texts_Store (Texts_Text T, OFS_File f, INT32 pos, INT32 *len);
+export void Texts_Store (Texts_Text T, Files_File f, INT32 pos, INT32 *len);
 static void Texts_SyncPiece (Texts_Text T, Texts_Piece p);
 export void Texts_Write (Texts_Writer *W, ADDRESS *W__typ, CHAR ch);
 export void Texts_WriteDate (Texts_Writer *W, ADDRESS *W__typ, INT32 t, INT32 d);
@@ -183,7 +184,7 @@ export void Texts_WriteSet (Texts_Writer *W, ADDRESS *W__typ, UINT32 s);
 export void Texts_WriteString (Texts_Writer *W, ADDRESS *W__typ, CHAR *s, ADDRESS s__len);
 
 
-void Texts_LoadAscii (Texts_Text T, OFS_File f)
+void Texts_LoadAscii (Texts_Text T, Files_File f)
 {
 	Texts_Piece Q, q;
 	INT32 len;
@@ -216,7 +217,7 @@ void Texts_LoadAscii (Texts_Text T, OFS_File f)
 	T->pce = T->trailer;
 }
 
-static void Texts_ReadDocHeader (OFS_Rider *R, ADDRESS *R__typ, CHAR *ch)
+static void Texts_ReadDocHeader (Files_Rider *R, ADDRESS *R__typ, CHAR *ch)
 {
 	INT32 len;
 	INT16 x, y, w, h;
@@ -238,9 +239,9 @@ static void Texts_ReadDocHeader (OFS_Rider *R, ADDRESS *R__typ, CHAR *ch)
 	}
 }
 
-void Texts_Load (Texts_Text T, OFS_File f, INT32 pos, INT32 *len)
+void Texts_Load (Texts_Text T, Files_File f, INT32 pos, INT32 *len)
 {
-	OFS_Rider R, S;
+	Files_Rider R, S;
 	Texts_Piece Q, q, p;
 	INT32 hlen, tlen, flen, off;
 	INT8 N, lib;
@@ -257,6 +258,7 @@ void Texts_Load (Texts_Text T, OFS_File f, INT32 pos, INT32 *len)
 	Q->col = 127;
 	Q->voff = 0;
 	p = Q;
+	flen = 0;
 	Files_Set(&R, OFS_Rider__typ, f, pos);
 	Files_Read(&R, OFS_Rider__typ, (void*)&type);
 	Files_ReadLInt(&R, OFS_Rider__typ, &hlen);
@@ -344,7 +346,7 @@ void Texts_Load (Texts_Text T, OFS_File f, INT32 pos, INT32 *len)
 
 static void Texts_SyncPiece (Texts_Text T, Texts_Piece p)
 {
-	OFS_Rider R;
+	Files_Rider R;
 	CHAR ch;
 	if ((((p->ref >= 0 && p->obj == NIL)) && !__ISP(p->lib, Fonts_FontDesc, 1))) {
 		(*T->obs->GetObj)(T->obs, p->ref, &p->obj);
@@ -363,10 +365,10 @@ typedef
 		ObjsBlock__32 next;
 	} ObjsBlockDesc__33;
 
-void Texts_Store (Texts_Text T, OFS_File f, INT32 pos, INT32 *len)
+void Texts_Store (Texts_Text T, Files_File f, INT32 pos, INT32 *len)
 {
 	Texts_Piece p, q;
-	OFS_Rider R, W;
+	Files_Rider R, W;
 	INT32 hlen, flen, rlen, m;
 	INT16 id, i;
 	INT8 N, n;
@@ -528,8 +530,8 @@ static void Texts_GenNew (Texts_Text T)
 
 void Texts_Open (Texts_Text T, CHAR *name, ADDRESS name__len)
 {
-	OFS_File f;
-	OFS_Rider R;
+	Files_File f;
+	Files_Rider R;
 	INT32 len;
 	CHAR ch;
 	__DUP(name, name__len, CHAR);
@@ -638,7 +640,8 @@ void Texts_Insert (Texts_Text T, INT32 pos, Texts_Buffer B)
 	B->last = B->header;
 	B->last->next = NIL;
 	B->len = 0;
-	T->stamp = M.stamp;
+//	T->stamp = M.stamp;
+	T->stamp = 1;
 }
 
 void Texts_Append (Texts_Text T, Texts_Buffer B)

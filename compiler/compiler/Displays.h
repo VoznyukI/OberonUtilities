@@ -4,6 +4,10 @@
 #define Displays__h
 
 #include "SYSTEM.h"
+#include "Displays.h"
+#include "Kernel.h"
+#include "Modules.h"
+#include "Objects.h"
 
 
 import INT32 Displays_width, Displays_height, Displays_offscreen, Displays_format, Displays_unit;

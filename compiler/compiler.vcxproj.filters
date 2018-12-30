@@ -14,4 +14,164 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="compiler\Compiler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\Display.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\Displays.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\Files.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\Fonts.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\Heap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\Kernel.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\Modules.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\Oberon.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\Objects.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\OFS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\OPA.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\OPB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\OPC.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\OPL.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\OPM.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\OPO.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\OPP.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\OPS.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\OPT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\OPV.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\Out.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\Platform.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\Reals.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\SYSTEM.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\Texts.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="compiler\Display.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\Displays.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\Files.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\Fonts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\Heap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\Kernel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\Modules.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\Oberon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\Objects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\OFS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\OPA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\OPB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\OPC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\OPL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\OPM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\OPO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\OPP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\OPS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\OPT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\OPV.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\Out.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\Platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\Reals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\SYSTEM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\Texts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\WindowsWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

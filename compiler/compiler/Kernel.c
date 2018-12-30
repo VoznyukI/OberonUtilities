@@ -6,6 +6,7 @@
 #define SET      UINT32
 
 #include "SYSTEM.h"
+#include "Kernel.h"
 
 typedef
 	struct Kernel_TypeDesc *Kernel_Tag;
@@ -19,23 +20,23 @@ struct Kernel__1 {
 	INT32 physAdr, size, virtAdr;
 };
 
-struct Kernel__1 {
+struct Kernel__11 {
 	UINT32 ptroff;
 };
 
 typedef
 	CHAR Kernel_Name[32];
 
-struct Kernel__2 {
+struct Kernel__22 {
 	INT32 filler[4];
 	Kernel_Name name;
 };
 
-typedef
-	struct {
-		ADDRESS len[1];
-		INT32 data[1];
-	} *Kernel_ArrayPtr;
+//typedef
+//	struct {
+//		ADDRESS len[1];
+//		INT32 data[1];
+//	} *Kernel_ArrayPtr;
 
 typedef
 	struct Kernel_Block *Kernel_BlockPtr;
@@ -54,24 +55,24 @@ typedef
 typedef
 	Kernel_Blockm4 *Kernel_Blockm4Ptr;
 
-typedef
-	struct Kernel_Cmd {
-		Kernel_Name name;
-		INT32 adr;
-	} Kernel_Cmd;
+//typedef
+//	struct Kernel_Cmd {
+//		Kernel_Name name;
+//		INT32 adr;
+//	} Kernel_Cmd;
 
 typedef
 	struct Kernel_ExportDesc *Kernel_ExportPtr;
 
-typedef
-	struct Kernel_ExportDesc {
-		INT32 fp, adr;
-		INT16 nofExp;
-		struct {
-			ADDRESS len[1];
-			Kernel_ExportPtr data[1];
-		} *dsc;
-	} Kernel_ExportDesc;
+//typedef
+//	struct Kernel_ExportDesc {
+//		INT32 fp, adr;
+//		INT16 nofExp;
+//		struct {
+//			ADDRESS len[1];
+//			Kernel_ExportPtr data[1];
+//		} *dsc;
+//	} Kernel_ExportDesc;
 
 typedef
 	struct Kernel_FinObjNode *Kernel_FinObj;
@@ -116,10 +117,10 @@ typedef
 typedef
 	struct Kernel__2 *Kernel_InitPtr;
 
-typedef
-	struct Kernel_MilliTimer {
-		INT32 target;
-	} Kernel_MilliTimer;
+//typedef
+//	struct Kernel_MilliTimer {
+//		INT32 target;
+//	} Kernel_MilliTimer;
 
 typedef
 	struct Kernel_ModuleDesc *Kernel_Module;
@@ -127,42 +128,42 @@ typedef
 typedef
 	void (*Kernel_Proc)(void);
 
-typedef
-	struct Kernel_ModuleDesc {
-		Kernel_Module next;
-		Kernel_Name name;
-		BOOLEAN init, trapped;
-		INT32 refcnt, sb;
-		struct {
-			ADDRESS len[1];
-			INT32 data[1];
-		} *entries;
-		struct {
-			ADDRESS len[1];
-			Kernel_Cmd data[1];
-		} *cmds;
-		struct {
-			ADDRESS len[1];
-			INT32 data[1];
-		} *ptrTab, *tdescs;
-		struct {
-			ADDRESS len[1];
-			Kernel_Module data[1];
-		} *imports;
-		struct {
-			ADDRESS len[1];
-			CHAR data[1];
-		} *data, *code, *refs;
-		INT32 publics, privates;
-		INT16 nofimp;
-		Kernel_ArrayPtr import_;
-		INT16 nofstrc;
-		Kernel_ArrayPtr struct_;
-		INT16 nofreimp;
-		Kernel_ArrayPtr reimp;
-		Kernel_ExportDesc export_;
-		Kernel_Proc term;
-	} Kernel_ModuleDesc;
+//typedef
+//	struct Kernel_ModuleDesc {
+//		Kernel_Module next;
+//		Kernel_Name name;
+//		BOOLEAN init, trapped;
+//		INT32 refcnt, sb;
+//		struct {
+//			ADDRESS len[1];
+//			INT32 data[1];
+//		} *entries;
+//		struct {
+//			ADDRESS len[1];
+//			Kernel_Cmd data[1];
+//		} *cmds;
+//		struct {
+//			ADDRESS len[1];
+//			INT32 data[1];
+//		} *ptrTab, *tdescs;
+//		struct {
+//			ADDRESS len[1];
+//			Kernel_Module data[1];
+//		} *imports;
+//		struct {
+//			ADDRESS len[1];
+//			CHAR data[1];
+//		} *data, *code, *refs;
+//		INT32 publics, privates;
+//		INT16 nofimp;
+//		Kernel_ArrayPtr import_;
+//		INT16 nofstrc;
+//		Kernel_ArrayPtr struct_;
+//		INT16 nofreimp;
+//		Kernel_ArrayPtr reimp;
+//		Kernel_ExportDesc export_;
+//		Kernel_Proc term;
+//	} Kernel_ModuleDesc;
 
 typedef
 	struct Kernel_PtrElemDesc {
@@ -268,8 +269,8 @@ export ADDRESS *Kernel_TSSDesc__typ;
 export ADDRESS *Kernel_V86Regs__typ;
 export ADDRESS *Kernel_MilliTimer__typ;
 export ADDRESS *Kernel__1__typ;
-export ADDRESS *Kernel__1__typ;
-export ADDRESS *Kernel__2__typ;
+export ADDRESS *Kernel__11__typ;
+export ADDRESS *Kernel__22__typ;
 
 static BOOLEAN Kernel_APM (INT32 *gdtofs, INT32 *apmofs);
 static void Kernel_APMPowerOff (void);
@@ -421,64 +422,64 @@ static void Kernel_Fill4 (INT32 dst, INT32 size4, INT32 filler)
 
 void Kernel_WriteChar (CHAR c)
 {
-	UINT32 status, flags;
-	INT32 adr;
-	flags = Kernel_GetFlags();
-	__CLI();
-	if (Kernel_traceConsole) {
-		if (c == 0x0d) {
-			if ((int)__MOD(Kernel_displayPos, 160) != 0) {
-				Kernel_displayPos -= (int)__MOD(Kernel_displayPos, 160);
-			}
-		} else if (c == 0x0a) {
-			Kernel_displayPos += 160;
-		} else {
-			__PUT(753664 + Kernel_displayPos, (INT16)(1792 + (INT16)c), INT16);
-			Kernel_displayPos += 2;
-		}
-		if (Kernel_displayPos >= 4000) {
-			Kernel_displayPos -= 160;
-			Kernel_Copy4(753824, 753664, 960);
-			Kernel_Fill4(757504, 40, 119539488);
-		}
-		__PORTOUT(980, 0x0e, CHAR);
-		__PORTOUT(981, (CHAR)__ASHR(__ASHR(Kernel_displayPos, 1), 8), CHAR);
-		__PORTOUT(980, 0x0f, CHAR);
-		__PORTOUT(981, (CHAR)__MASK(__ASHR(Kernel_displayPos, 1), -256), CHAR);
-	}
-	if (Kernel_tspeed > 0) {
-		if (Kernel_tspeed != Kernel_pspeed) {
-			__PORTOUT(Kernel_tbase + 3, 0x80, CHAR);
-			__PORTOUT(Kernel_tbase + 1, (CHAR)__ASHR(__DIV(115200, Kernel_tspeed), 8), CHAR);
-			__PORTOUT(Kernel_tbase, (CHAR)__DIV(115200, Kernel_tspeed), CHAR);
-			__PORTOUT(Kernel_tbase + 3, 0x03, CHAR);
-			__PORTOUT(Kernel_tbase + 4, 0x03, CHAR);
-			__PORTOUT(Kernel_tbase + 1, 0x00, CHAR);
-			Kernel_pspeed = Kernel_tspeed;
-		}
-		do {
-			__PORTIN(Kernel_tbase + 5, __VAL(CHAR, status), CHAR);
-		} while (!(((status & 0x60)) == 0x60));
-		__PORTOUT(Kernel_tbase, c, CHAR);
-	}
-	if (Kernel_traceBufAdr != 0) {
-		adr = (int)__MOD(Kernel_traceTail + 1, Kernel_traceBufSize);
-		if (adr != Kernel_traceHead) {
-			__PUT(Kernel_traceBufAdr + Kernel_traceTail, c, CHAR);
-			Kernel_traceTail = adr;
-		}
-	}
-	if (Kernel_tlpt > 0) {
-		do {
-			__PORTIN(Kernel_tlpt + 1, __VAL(CHAR, status), CHAR);
-			__PORTIN(Kernel_tlpt + 1, __VAL(CHAR, status), CHAR);
-		} while (!__IN(7, status, 32));
-		__PORTOUT(Kernel_tlpt, c, CHAR);
-		__PORTOUT(Kernel_tlpt + 2, 0x0d, CHAR);
-		__PORTOUT(Kernel_tlpt + 2, 0x0d, CHAR);
-		__PORTOUT(Kernel_tlpt + 2, 0x0c, CHAR);
-	}
-	Kernel_SetFlags(flags);
+	//UINT32 status, flags;
+	//INT32 adr;
+	//flags = Kernel_GetFlags();
+	//__CLI();
+	//if (Kernel_traceConsole) {
+	//	if (c == 0x0d) {
+	//		if ((int)__MOD(Kernel_displayPos, 160) != 0) {
+	//			Kernel_displayPos -= (int)__MOD(Kernel_displayPos, 160);
+	//		}
+	//	} else if (c == 0x0a) {
+	//		Kernel_displayPos += 160;
+	//	} else {
+	//		__PUT(753664 + Kernel_displayPos, (INT16)(1792 + (INT16)c), INT16);
+	//		Kernel_displayPos += 2;
+	//	}
+	//	if (Kernel_displayPos >= 4000) {
+	//		Kernel_displayPos -= 160;
+	//		Kernel_Copy4(753824, 753664, 960);
+	//		Kernel_Fill4(757504, 40, 119539488);
+	//	}
+	//	__PORTOUT(980, 0x0e, CHAR);
+	//	__PORTOUT(981, (CHAR)__ASHR(__ASHR(Kernel_displayPos, 1), 8), CHAR);
+	//	__PORTOUT(980, 0x0f, CHAR);
+	//	__PORTOUT(981, (CHAR)__MASK(__ASHR(Kernel_displayPos, 1), -256), CHAR);
+	//}
+	//if (Kernel_tspeed > 0) {
+	//	if (Kernel_tspeed != Kernel_pspeed) {
+	//		__PORTOUT(Kernel_tbase + 3, 0x80, CHAR);
+	//		__PORTOUT(Kernel_tbase + 1, (CHAR)__ASHR(__DIV(115200, Kernel_tspeed), 8), CHAR);
+	//		__PORTOUT(Kernel_tbase, (CHAR)__DIV(115200, Kernel_tspeed), CHAR);
+	//		__PORTOUT(Kernel_tbase + 3, 0x03, CHAR);
+	//		__PORTOUT(Kernel_tbase + 4, 0x03, CHAR);
+	//		__PORTOUT(Kernel_tbase + 1, 0x00, CHAR);
+	//		Kernel_pspeed = Kernel_tspeed;
+	//	}
+	//	do {
+	//		__PORTIN(Kernel_tbase + 5, __VAL(CHAR, status), CHAR);
+	//	} while (!(((status & 0x60)) == 0x60));
+	//	__PORTOUT(Kernel_tbase, c, CHAR);
+	//}
+	//if (Kernel_traceBufAdr != 0) {
+	//	adr = (int)__MOD(Kernel_traceTail + 1, Kernel_traceBufSize);
+	//	if (adr != Kernel_traceHead) {
+	//		__PUT(Kernel_traceBufAdr + Kernel_traceTail, c, CHAR);
+	//		Kernel_traceTail = adr;
+	//	}
+	//}
+	//if (Kernel_tlpt > 0) {
+	//	do {
+	//		__PORTIN(Kernel_tlpt + 1, __VAL(CHAR, status), CHAR);
+	//		__PORTIN(Kernel_tlpt + 1, __VAL(CHAR, status), CHAR);
+	//	} while (!__IN(7, status, 32));
+	//	__PORTOUT(Kernel_tlpt, c, CHAR);
+	//	__PORTOUT(Kernel_tlpt + 2, 0x0d, CHAR);
+	//	__PORTOUT(Kernel_tlpt + 2, 0x0d, CHAR);
+	//	__PORTOUT(Kernel_tlpt + 2, 0x0c, CHAR);
+	//}
+	//Kernel_SetFlags(flags);
 }
 
 void Kernel_WriteString (CHAR *s, ADDRESS s__len)
@@ -1034,7 +1035,7 @@ INT32 Kernel_Used (void)
 }
 
 typedef
-	struct Kernel__1 *Tag0__84;
+	struct Kernel__11 *Tag0__84;
 
 static void Kernel_Mark (Kernel_BlockPtr block)
 {
@@ -1372,6 +1373,9 @@ static void Kernel_Candidate (INT32 p)
 			if (__IN(__MASK(tag, -8), 0x05, 32)) {
 				Kernel_candidates[__X(Kernel_nofcand, 1024)] = p;
 				Kernel_nofcand += 1;
+//(*	IF nofcand = LEN(candidates) THEN CheckCandidates END *)
+                if ( Kernel_nofcand == 1024 )
+                    Kernel_CheckCandidates();
 			}
 		} else if (__MASK(p, -16) == 8) {
 			__GET(p - 4, tag, INT32);
@@ -1380,6 +1384,9 @@ static void Kernel_Candidate (INT32 p)
 				if (tag0 == tag) {
 					Kernel_candidates[__X(Kernel_nofcand, 1024)] = p;
 					Kernel_nofcand += 1;
+//(*		IF nofcand = LEN(candidates) THEN CheckCandidates END *)
+                    if ( Kernel_nofcand == 1024 )
+                        Kernel_CheckCandidates();
 				}
 			}
 		}
@@ -1917,7 +1924,9 @@ void Kernel_InstallTermHandler (Kernel_Proc h)
 	found = 0;
 	while ((m != NIL && !found)) {
 		codebase = (ADDRESS)&(m->code->data)[0];
-		if ((codebase <= handlerAdr && handlerAdr <= codebase)) {
+//		if ((codebase <= handlerAdr && handlerAdr <= codebase)) {
+        if ((codebase <= handlerAdr && handlerAdr <= codebase +  m->code->len[0] )) {
+//(* + LEN(m.code) *) ) 
 			found = 1;
 		} else {
 			m = m->next;
@@ -1934,7 +1943,9 @@ void Kernel_FinalizeModule (Kernel_Module m)
 	INT32 beg, end;
 	Kernel_FinObj n, prev;
 	beg = (ADDRESS)&(m->code->data)[0];
-	end = beg;
+	//end = beg;
+    //(* + LEN(m.code) *)
+    end = beg + m->code->len[ 0 ];
 	n = Kernel_FinObjs;
 	while (n != NIL) {
 		if ((beg <= (INT32)(ADDRESS)n->fin && (INT32)(ADDRESS)n->fin <= end)) {
@@ -2055,30 +2066,30 @@ static void Kernel_ClockHandler (void)
 
 static void Kernel_InitClock (void)
 {
-	INT32 t;
-	CHAR s[8];
-	Kernel_second = -1;
-	Kernel_GetConfig((CHAR*)"ClockMode", 10, (void*)s, 8);
-	Kernel_clockmode = Kernel_StrToInt(s, 8);
-	if (Kernel_clockmode != 1) {
-		Kernel_InstallIP(Kernel_ClockHandler, 40);
-		Kernel_PutCMOS(11, 0x12);
-		t = Kernel_ticks;
-		do {
-		} while (!(Kernel_second != -1 || Kernel_ticks - t > 3000));
-	}
-	if (Kernel_second == -1) {
-		Kernel_second = 0;
-		Kernel_minute = 0;
-		Kernel_hour = 0;
-		Kernel_day = 0;
-		Kernel_month = 0;
-		Kernel_year = 0;
-		if (Kernel_clockmode != 1) {
-			Kernel_RemoveIP(Kernel_ClockHandler, 40);
-		}
-		Kernel_clockmode = 1;
-	}
+	//INT32 t;
+	//CHAR s[8];
+	//Kernel_second = -1;
+	//Kernel_GetConfig((CHAR*)"ClockMode", 10, (void*)s, 8);
+	//Kernel_clockmode = Kernel_StrToInt(s, 8);
+	//if (Kernel_clockmode != 1) {
+	//	Kernel_InstallIP(Kernel_ClockHandler, 40);
+	//	Kernel_PutCMOS(11, 0x12);
+	//	t = Kernel_ticks;
+	//	do {
+	//	} while (!(Kernel_second != -1 || Kernel_ticks - t > 3000));
+	//}
+	//if (Kernel_second == -1) {
+	//	Kernel_second = 0;
+	//	Kernel_minute = 0;
+	//	Kernel_hour = 0;
+	//	Kernel_day = 0;
+	//	Kernel_month = 0;
+	//	Kernel_year = 0;
+	//	if (Kernel_clockmode != 1) {
+	//		Kernel_RemoveIP(Kernel_ClockHandler, 40);
+	//	}
+	//	Kernel_clockmode = 1;
+	//}
 }
 
 static INT32 Kernel_BCD2 (INT16 x)
@@ -2211,6 +2222,12 @@ void Kernel_GetConfig (CHAR *name, ADDRESS name__len, CHAR *val, ADDRESS val__le
 						__GET(src, ch, CHAR);
 						val[__X(i, val__len)] = ch;
 						i += 1;
+//(* IF i = LEN(val) THEN val[0] := 0X; RETURN END *)
+                        if ( i == val__len )
+                        {
+                            val[ 0 ] = 0x00;
+                            return;
+                        }
 					} while (!(ch == 0x00));
 					val[__X(i, val__len)] = 0x00;
 					__DEL(name);
@@ -2239,6 +2256,8 @@ void Kernel_GetLog (CHAR *val, ADDRESS val__len)
 	BOOLEAN pass;
 	i = 0;
 	if (Kernel_traceBufAdr != 0) {
+//(* max := LEN(val)-1; *)
+        max = val__len - 1;
 		pass = 0;
 		while ((i < max && Kernel_traceHead != Kernel_traceTail)) {
 			__GET(Kernel_traceBufAdr + Kernel_traceHead, val[__X(i, val__len)], CHAR);
@@ -2265,6 +2284,8 @@ void Kernel_GetMarkedLog (CHAR *val, ADDRESS val__len)
 	INT32 i, max;
 	i = 0;
 	if (Kernel_traceBufAdr != 0) {
+//(* max := LEN(val)-1; *) 
+        max = val__len - 1;
 		while ((i < max && Kernel_traceMark != Kernel_traceTail)) {
 			__GET(Kernel_traceBufAdr + Kernel_traceMark, val[__X(i, val__len)], CHAR);
 			Kernel_traceMark = (int)__MOD(Kernel_traceMark + 1, Kernel_traceBufSize);
@@ -2291,160 +2312,160 @@ static void Kernel_DefaultDisableGC (void)
 
 static void Kernel_InitHeap (void)
 {
-	INT32 pt, i, t, stacksize, size, dmasize;
-	Kernel_FreeBlockPtr f;
-	Kernel_Module m;
-	UINT32 set;
-	struct Kernel__2 *td;
-	INT32 high0, high1, low0, low1, free0, free1, prev;
-	CHAR c;
-	CHAR s[10];
-	Kernel_Blockm4Ptr p;
-	Kernel_Tag tag, tdesc;
-	INT32 _for__61;
-	Kernel_inGC = 0;
-	Kernel_break = 0;
-	Kernel_FinObjs = NIL;
-	m = Kernel_modules;
-	__ASSERT(m != NIL, 0);
-	m = Kernel_modules;
-	while (__STRCMP(m->name, "Kernel") != 0) {
-		m = m->next;
-	}
-	Kernel_ptrElemTag = 0;
-	do {
-		if (__STRCMP(td->name, "PtrElemDesc") == 0) {
-			Kernel_ptrElemTag = t;
-		}
-	} while (!(Kernel_ptrElemTag != 0));
-	Kernel_GetConfig((CHAR*)"StackSize", 10, (void*)s, 10);
-	stacksize = Kernel_StrToInt(s, 10);
-	stacksize -= __MASK(stacksize, -4);
-	if (stacksize <= 0) {
-		stacksize = 131072;
-	} else if (stacksize < 32768) {
-		stacksize = 32768;
-	}
-	Kernel_GetConfig((CHAR*)"DMASize", 8, (void*)s, 10);
-	dmasize = Kernel_StrToInt(s, 10);
-	if (dmasize <= 0) {
-		dmasize = 32768;
-	} else if (dmasize < 8) {
-		dmasize = 8;
-	}
-	dmasize += __MASK(-dmasize, -4096);
-	Kernel_GetConfig((CHAR*)"PageHeap", 9, (void*)s, 10);
-	Kernel_pageheap1 = __ASHL(Kernel_StrToInt(s, 10), 10);
-	if (Kernel_pageheap1 == 0) {
-		Kernel_pageheap1 = 16384;
-	}
-	Kernel_pageheap1 += __MASK(-Kernel_pageheap1, -4096);
-	Kernel_WriteInt(__ASHR(Kernel_pageheap0 - Kernel_pageheap, 12), 1);
-	Kernel_WriteString((CHAR*)" pages allocated, ", 19);
-	Kernel_WriteInt(__ASHR(Kernel_pageheap1, 12), 1);
-	Kernel_WriteString((CHAR*)" pages reserved", 16);
-	Kernel_WriteLn();
-	Kernel_pageheap1 = Kernel_pageheap - Kernel_pageheap1;
-	Kernel_dma1 = Kernel_pageheap1;
-	Kernel_dma0 = Kernel_dma1 - dmasize;
-	if (__ASHR(Kernel_dma0, 16) != __ASHR(Kernel_dma1, 16)) {
-		Kernel_dma0 -= __MASK(Kernel_dma1, -65536);
-	}
-	if (__MASK(Kernel_dma0, -65536) > 65528) {
-		Kernel_dma0 -= 8;
-	}
-	free0 = Kernel_dma0;
-	prev = (ADDRESS)&Kernel_dmafree;
-	for (;;) {
-		free1 = free0 + (65536 - __MASK(free0, -65536));
-		if (free1 > Kernel_dma1) {
-			free1 = Kernel_dma1;
-		}
-		if (free0 == free1) {
-			break;
-		}
-		if (__IN(9, Kernel_traceheap, 32)) {
-			Kernel_WriteHex(free0, 8);
-			Kernel_WriteHex(free1, 10);
-			Kernel_WriteInt(free1 - free0, 8);
-			Kernel_WriteLn();
-		}
-		__PUT(free0, free1 - free0, INT32);
-		__PUT(prev, free0, INT32);
-		prev = free0 + 4;
-		free0 = free1;
-	}
-	__PUT(prev, 0, INT32);
-	__ASSERT((Kernel_dma0 < 4194304 && Kernel_dma1 < 4194304), 0);
-	__GET(Kernel_v86pd, pt, INT32);
-	pt -= __MASK(pt, -4096);
-	_for__61 = __ASHR(Kernel_dma1, 12) - 1;
-	i = __ASHR(Kernel_dma0, 12);
-	while (i <= _for__61) {
-		__GET(pt + __ASHL(i, 2), set, UINT32);
-		__PUT(pt + __ASHL(i, 2), set | 0x02, UINT32);
-		i += 1;
-	}
-	high0 = (INT32)(((UINT32)((((1048576 + stacksize) + 4) + 32) - 1) & ~(UINT32)31)) - 4;
-	high1 = (INT32)(((UINT32)(Kernel_heapTop - 1) & ~(UINT32)31)) - 4;
-	Kernel_StackOrg = high0;
-	__GET(4118, low0, INT32);
-	__ASSERT(__MASK(low0, -32) == 28, 0);
-	low1 = ((INT32)(((UINT32)Kernel_dma0 & ~(UINT32)31)) - 4) - 32;
-	__ASSERT(low1 - 64 >= low0, 0);
-	if (((Kernel_traceheap & 0xffff)) != 0x0) {
-		Kernel_WriteHex(low0, 8);
-		Kernel_WriteHex(low1, 10);
-		Kernel_WriteHex(Kernel_dma0, 10);
-		Kernel_WriteHex(Kernel_dma1, 10);
-		Kernel_WriteHex(Kernel_StackOrg, 10);
-		Kernel_WriteHex(high0, 10);
-		Kernel_WriteHex(high1, 10);
-		Kernel_WriteLn();
-	}
-	__ASSERT(high1 > 1052672, 0);
-	Kernel_Fill4(low0, __ASHR(low1 - low0, 2), 0);
-	Kernel_Fill4(1048576, __ASHR(high1 - 1048576, 2), 0);
-	Kernel_firstBlock = 4156;
-	Kernel_endBlock = high1;
-	p = (Kernel_Blockm4Ptr)(ADDRESS)Kernel_firstBlock;
-	while (p->tag != NIL) {
-		tag = p->tag;
-		Kernel_initres = (Kernel_InitPtr)(ADDRESS)((INT32)(ADDRESS)p + 28);
-		tdesc = (Kernel_Tag)(ADDRESS)(((((UINT32)(ADDRESS)tag & ~0x02)) & ~0x01));
-		if (((0x02 & (UINT32)(ADDRESS)tag)) != 0x0) {
-			size = (p->lastElemToMark + tdesc->size) - (INT32)(ADDRESS)p;
-		} else {
-			size = tdesc->size + 4;
-		}
-		size = (INT32)(((UINT32)((size + 32) - 1) & ~(UINT32)31));
-		(INT32)(ADDRESS)p += size;
-	}
-	__GET(Kernel_initres, c, CHAR);
-	__ASSERT(c == 0xe8, 0);
-	f = (Kernel_FreeBlockPtr)(ADDRESS)high0;
-	f->tag = (Kernel_Tag)(ADDRESS)((UINT32)((ADDRESS)&f->size) | 0x04);
-	f->size = (high1 - high0) - 4;
-	f->next = 0;
-	f = (Kernel_FreeBlockPtr)(ADDRESS)low0;
-	f->tag = (Kernel_Tag)(ADDRESS)((UINT32)((ADDRESS)&f->size) | 0x04);
-	f->size = (low1 - low0) - 4;
-	f->next = high0;
-	Kernel_sysres = (Kernel_InitPtr)(ADDRESS)low1;
-	Kernel_sysres->tag = (Kernel_Tag)(ADDRESS)((UINT32)((ADDRESS)&Kernel_sysres->z0) | 0x01);
-	Kernel_sysres->z0 = (high0 - low1) - 4;
-	Kernel_sysres->z1 = -4;
-	Kernel_sysres->z5 = (ADDRESS)&Kernel_sysres->z0;
-	Kernel_sysres = (Kernel_InitPtr)(ADDRESS)(low1 + 28);
-	Kernel_reserve = NIL;
-	Kernel_firstTry = 1;
-	Kernel_GClevel = 1;
-	Kernel_GCstack = 0;
-	Kernel_GC();
-	Kernel_GClevel = 0;
-	Kernel_GCstack = 1;
-	Kernel_EnableGC = Kernel_DefaultEnableGC;
-	Kernel_DisableGC = Kernel_DefaultDisableGC;
+	//INT32 pt, i, t, stacksize, size, dmasize;
+	//Kernel_FreeBlockPtr f;
+	//Kernel_Module m;
+	//UINT32 set;
+	//struct Kernel__22 *td;
+	//INT32 high0, high1, low0, low1, free0, free1, prev;
+	//CHAR c;
+	//CHAR s[10];
+	//Kernel_Blockm4Ptr p;
+	//Kernel_Tag tag, tdesc;
+	//INT32 _for__61;
+	//Kernel_inGC = 0;
+	//Kernel_break = 0;
+	//Kernel_FinObjs = NIL;
+	//m = Kernel_modules;
+	//__ASSERT(m != NIL, 0);
+	//m = Kernel_modules;
+	//while (__STRCMP(m->name, "Kernel") != 0) {
+	//	m = m->next;
+	//}
+	//Kernel_ptrElemTag = 0;
+	//do {
+	//	if (__STRCMP(td->name, "PtrElemDesc") == 0) {
+	//		Kernel_ptrElemTag = t;
+	//	}
+	//} while (!(Kernel_ptrElemTag != 0));
+	//Kernel_GetConfig((CHAR*)"StackSize", 10, (void*)s, 10);
+	//stacksize = Kernel_StrToInt(s, 10);
+	//stacksize -= __MASK(stacksize, -4);
+	//if (stacksize <= 0) {
+	//	stacksize = 131072;
+	//} else if (stacksize < 32768) {
+	//	stacksize = 32768;
+	//}
+	//Kernel_GetConfig((CHAR*)"DMASize", 8, (void*)s, 10);
+	//dmasize = Kernel_StrToInt(s, 10);
+	//if (dmasize <= 0) {
+	//	dmasize = 32768;
+	//} else if (dmasize < 8) {
+	//	dmasize = 8;
+	//}
+	//dmasize += __MASK(-dmasize, -4096);
+	//Kernel_GetConfig((CHAR*)"PageHeap", 9, (void*)s, 10);
+	//Kernel_pageheap1 = __ASHL(Kernel_StrToInt(s, 10), 10);
+	//if (Kernel_pageheap1 == 0) {
+	//	Kernel_pageheap1 = 16384;
+	//}
+	//Kernel_pageheap1 += __MASK(-Kernel_pageheap1, -4096);
+	//Kernel_WriteInt(__ASHR(Kernel_pageheap0 - Kernel_pageheap, 12), 1);
+	//Kernel_WriteString((CHAR*)" pages allocated, ", 19);
+	//Kernel_WriteInt(__ASHR(Kernel_pageheap1, 12), 1);
+	//Kernel_WriteString((CHAR*)" pages reserved", 16);
+	//Kernel_WriteLn();
+	//Kernel_pageheap1 = Kernel_pageheap - Kernel_pageheap1;
+	//Kernel_dma1 = Kernel_pageheap1;
+	//Kernel_dma0 = Kernel_dma1 - dmasize;
+	//if (__ASHR(Kernel_dma0, 16) != __ASHR(Kernel_dma1, 16)) {
+	//	Kernel_dma0 -= __MASK(Kernel_dma1, -65536);
+	//}
+	//if (__MASK(Kernel_dma0, -65536) > 65528) {
+	//	Kernel_dma0 -= 8;
+	//}
+	//free0 = Kernel_dma0;
+	//prev = (ADDRESS)&Kernel_dmafree;
+	//for (;;) {
+	//	free1 = free0 + (65536 - __MASK(free0, -65536));
+	//	if (free1 > Kernel_dma1) {
+	//		free1 = Kernel_dma1;
+	//	}
+	//	if (free0 == free1) {
+	//		break;
+	//	}
+	//	if (__IN(9, Kernel_traceheap, 32)) {
+	//		Kernel_WriteHex(free0, 8);
+	//		Kernel_WriteHex(free1, 10);
+	//		Kernel_WriteInt(free1 - free0, 8);
+	//		Kernel_WriteLn();
+	//	}
+	//	__PUT(free0, free1 - free0, INT32);
+	//	__PUT(prev, free0, INT32);
+	//	prev = free0 + 4;
+	//	free0 = free1;
+	//}
+	//__PUT(prev, 0, INT32);
+	//__ASSERT((Kernel_dma0 < 4194304 && Kernel_dma1 < 4194304), 0);
+	//__GET(Kernel_v86pd, pt, INT32);
+	//pt -= __MASK(pt, -4096);
+	//_for__61 = __ASHR(Kernel_dma1, 12) - 1;
+	//i = __ASHR(Kernel_dma0, 12);
+	//while (i <= _for__61) {
+	//	__GET(pt + __ASHL(i, 2), set, UINT32);
+	//	__PUT(pt + __ASHL(i, 2), set | 0x02, UINT32);
+	//	i += 1;
+	//}
+	//high0 = (INT32)(((UINT32)((((1048576 + stacksize) + 4) + 32) - 1) & ~(UINT32)31)) - 4;
+	//high1 = (INT32)(((UINT32)(Kernel_heapTop - 1) & ~(UINT32)31)) - 4;
+	//Kernel_StackOrg = high0;
+	//__GET(4118, low0, INT32);
+	//__ASSERT(__MASK(low0, -32) == 28, 0);
+	//low1 = ((INT32)(((UINT32)Kernel_dma0 & ~(UINT32)31)) - 4) - 32;
+	//__ASSERT(low1 - 64 >= low0, 0);
+	//if (((Kernel_traceheap & 0xffff)) != 0x0) {
+	//	Kernel_WriteHex(low0, 8);
+	//	Kernel_WriteHex(low1, 10);
+	//	Kernel_WriteHex(Kernel_dma0, 10);
+	//	Kernel_WriteHex(Kernel_dma1, 10);
+	//	Kernel_WriteHex(Kernel_StackOrg, 10);
+	//	Kernel_WriteHex(high0, 10);
+	//	Kernel_WriteHex(high1, 10);
+	//	Kernel_WriteLn();
+	//}
+	//__ASSERT(high1 > 1052672, 0);
+	//Kernel_Fill4(low0, __ASHR(low1 - low0, 2), 0);
+	//Kernel_Fill4(1048576, __ASHR(high1 - 1048576, 2), 0);
+	//Kernel_firstBlock = 4156;
+	//Kernel_endBlock = high1;
+	//p = (Kernel_Blockm4Ptr)(ADDRESS)Kernel_firstBlock;
+	//while (p->tag != NIL) {
+	//	tag = p->tag;
+	//	Kernel_initres = (Kernel_InitPtr)(ADDRESS)((INT32)(ADDRESS)p + 28);
+	//	tdesc = (Kernel_Tag)(ADDRESS)(((((UINT32)(ADDRESS)tag & ~0x02)) & ~0x01));
+	//	if (((0x02 & (UINT32)(ADDRESS)tag)) != 0x0) {
+	//		size = (p->lastElemToMark + tdesc->size) - (INT32)(ADDRESS)p;
+	//	} else {
+	//		size = tdesc->size + 4;
+	//	}
+	//	size = (INT32)(((UINT32)((size + 32) - 1) & ~(UINT32)31));
+	//	(INT32)(ADDRESS)p += size;
+	//}
+	//__GET(Kernel_initres, c, CHAR);
+	//__ASSERT(c == 0xe8, 0);
+	//f = (Kernel_FreeBlockPtr)(ADDRESS)high0;
+	//f->tag = (Kernel_Tag)(ADDRESS)((UINT32)((ADDRESS)&f->size) | 0x04);
+	//f->size = (high1 - high0) - 4;
+	//f->next = 0;
+	//f = (Kernel_FreeBlockPtr)(ADDRESS)low0;
+	//f->tag = (Kernel_Tag)(ADDRESS)((UINT32)((ADDRESS)&f->size) | 0x04);
+	//f->size = (low1 - low0) - 4;
+	//f->next = high0;
+	//Kernel_sysres = (Kernel_InitPtr)(ADDRESS)low1;
+	//Kernel_sysres->tag = (Kernel_Tag)(ADDRESS)((UINT32)((ADDRESS)&Kernel_sysres->z0) | 0x01);
+	//Kernel_sysres->z0 = (high0 - low1) - 4;
+	//Kernel_sysres->z1 = -4;
+	//Kernel_sysres->z5 = (ADDRESS)&Kernel_sysres->z0;
+	//Kernel_sysres = (Kernel_InitPtr)(ADDRESS)(low1 + 28);
+	//Kernel_reserve = NIL;
+	//Kernel_firstTry = 1;
+	//Kernel_GClevel = 1;
+	//Kernel_GCstack = 0;
+	//Kernel_GC();
+	//Kernel_GClevel = 0;
+	//Kernel_GCstack = 1;
+	//Kernel_EnableGC = Kernel_DefaultEnableGC;
+	//Kernel_DisableGC = Kernel_DefaultDisableGC;
 }
 
 static BOOLEAN Kernel_IsRAM (INT32 adr)
@@ -2984,101 +3005,101 @@ static void Kernel_EnableMM (INT32 pd)
 
 static void Kernel_InitMemory (void)
 {
-	INT32 i, j, m, n, phys, pt;
-	CHAR s[32];
-	UINT32 t;
-	i = 0;
-	while (i <= 3) {
-		Kernel_mapcache[__X(i, 4)].size = 0;
-		i += 1;
-	}
-	Kernel_AllocatePage(&Kernel_kernelpd);
-	__ASSERT(Kernel_kernelpd != 0, 0);
-	phys = 0;
-	i = 0;
-	m = __ASHR((Kernel_memTop + 4194304) - 1, 22);
-	while (i != m) {
-		Kernel_AllocatePage(&pt);
-		__ASSERT(pt != 0, 0);
-		j = 0;
-		n = 1024;
-		while (j != n) {
-			if (phys >= Kernel_memTop) {
-				n = j;
-			} else {
-				__PUT(pt + __ASHL(j, 2), phys + 7, INT32);
-				phys += 4096;
-				j += 1;
-			}
-		}
-		while (j != 1024) {
-			__PUT(pt + __ASHL(j, 2), 0, INT32);
-			j += 1;
-		}
-		__PUT(Kernel_kernelpd + __ASHL(i, 2), pt + 7, INT32);
-		i += 1;
-	}
-	while (i != 1024) {
-		__PUT(Kernel_kernelpd + __ASHL(i, 2), 0, INT32);
-		i += 1;
-	}
-	Kernel_mapPtr = 3758096384LL;
-	i = 0;
-	while (i != 10) {
-		__MOVE("MapAdrX", s, 8);
-		s[6] = (CHAR)(48 + i);
-		Kernel_GetConfig(s, 32, (void*)s, 32);
-		m = Kernel_StrToInt(s, 32);
-		__MOVE("MapLenX", s, 8);
-		s[6] = (CHAR)(48 + i);
-		Kernel_GetConfig(s, 32, (void*)s, 32);
-		n = Kernel_StrToInt(s, 32);
-		if ((m != 0 && n != 0)) {
-			Kernel_MapMem(Kernel_kernelpd, m, n, m + 7);
-			i += 1;
-		} else {
-			i = 10;
-		}
-	}
-	Kernel_GetConfig((CHAR*)"MapVesa", 8, (void*)s, 32);
-	if (__STRCMP(s, "1") == 0) {
-		__ASSERT(__MASK(Kernel_kpar[1], -4096) == 0, 0);
-		Kernel_MapMem(Kernel_kernelpd, 3758096384LL, 4194304, Kernel_kpar[1] + 7);
-		Kernel_kpar[1] = 3758096384LL;
-	}
-	Kernel_AllocatePage(&Kernel_v86pd);
-	__ASSERT(Kernel_v86pd != 0, 0);
-	Kernel_Copy4(Kernel_kernelpd, Kernel_v86pd, 1024);
-	Kernel_AllocatePage(&pt);
-	__ASSERT(pt != 0, 0);
-	__GET(Kernel_kernelpd, phys, INT32);
-	phys -= __MASK(phys, -4096);
-	Kernel_Copy4(phys, pt, 1024);
-	__PUT(Kernel_v86pd, pt + 7, INT32);
-	i = 1;
-	while (i <= 159) {
-		__GET(pt + __ASHL(i, 2), t, UINT32);
-		__PUT(pt + __ASHL(i, 2), (t & ~0x02), UINT32);
-		i += 1;
-	}
-	__GET(Kernel_kernelpd, pt, INT32);
-	pt -= 7;
-	__PUT(pt, 0, INT32);
-	i = 240;
-	while (i <= 255) {
-		__GET(pt + __ASHL(i, 2), t, UINT32);
-		__PUT(pt + __ASHL(i, 2), (t & ~0x02), UINT32);
-		i += 1;
-	}
-	i = 256;
-	while (i <= 259) {
-		__GET(pt + __ASHL(i, 2), t, UINT32);
-		__PUT(pt + __ASHL(i, 2), (t & ~0x02), UINT32);
-		i += 1;
-	}
-	__PUT(1138, 4660, INT16);
-	Kernel_ktss.CR3 = Kernel_kernelpd;
-	Kernel_EnableMM(Kernel_kernelpd);
+	//INT32 i, j, m, n, phys, pt;
+	//CHAR s[32];
+	//UINT32 t;
+	//i = 0;
+	//while (i <= 3) {
+	//	Kernel_mapcache[__X(i, 4)].size = 0;
+	//	i += 1;
+	//}
+	//Kernel_AllocatePage(&Kernel_kernelpd);
+	//__ASSERT(Kernel_kernelpd != 0, 0);
+	//phys = 0;
+	//i = 0;
+	//m = __ASHR((Kernel_memTop + 4194304) - 1, 22);
+	//while (i != m) {
+	//	Kernel_AllocatePage(&pt);
+	//	__ASSERT(pt != 0, 0);
+	//	j = 0;
+	//	n = 1024;
+	//	while (j != n) {
+	//		if (phys >= Kernel_memTop) {
+	//			n = j;
+	//		} else {
+	//			__PUT(pt + __ASHL(j, 2), phys + 7, INT32);
+	//			phys += 4096;
+	//			j += 1;
+	//		}
+	//	}
+	//	while (j != 1024) {
+	//		__PUT(pt + __ASHL(j, 2), 0, INT32);
+	//		j += 1;
+	//	}
+	//	__PUT(Kernel_kernelpd + __ASHL(i, 2), pt + 7, INT32);
+	//	i += 1;
+	//}
+	//while (i != 1024) {
+	//	__PUT(Kernel_kernelpd + __ASHL(i, 2), 0, INT32);
+	//	i += 1;
+	//}
+	//Kernel_mapPtr = 3758096384LL;
+	//i = 0;
+	//while (i != 10) {
+	//	__MOVE("MapAdrX", s, 8);
+	//	s[6] = (CHAR)(48 + i);
+	//	Kernel_GetConfig(s, 32, (void*)s, 32);
+	//	m = Kernel_StrToInt(s, 32);
+	//	__MOVE("MapLenX", s, 8);
+	//	s[6] = (CHAR)(48 + i);
+	//	Kernel_GetConfig(s, 32, (void*)s, 32);
+	//	n = Kernel_StrToInt(s, 32);
+	//	if ((m != 0 && n != 0)) {
+	//		Kernel_MapMem(Kernel_kernelpd, m, n, m + 7);
+	//		i += 1;
+	//	} else {
+	//		i = 10;
+	//	}
+	//}
+	//Kernel_GetConfig((CHAR*)"MapVesa", 8, (void*)s, 32);
+	//if (__STRCMP(s, "1") == 0) {
+	//	__ASSERT(__MASK(Kernel_kpar[1], -4096) == 0, 0);
+	//	Kernel_MapMem(Kernel_kernelpd, 3758096384LL, 4194304, Kernel_kpar[1] + 7);
+	//	Kernel_kpar[1] = 3758096384LL;
+	//}
+	//Kernel_AllocatePage(&Kernel_v86pd);
+	//__ASSERT(Kernel_v86pd != 0, 0);
+	//Kernel_Copy4(Kernel_kernelpd, Kernel_v86pd, 1024);
+	//Kernel_AllocatePage(&pt);
+	//__ASSERT(pt != 0, 0);
+	//__GET(Kernel_kernelpd, phys, INT32);
+	//phys -= __MASK(phys, -4096);
+	//Kernel_Copy4(phys, pt, 1024);
+	//__PUT(Kernel_v86pd, pt + 7, INT32);
+	//i = 1;
+	//while (i <= 159) {
+	//	__GET(pt + __ASHL(i, 2), t, UINT32);
+	//	__PUT(pt + __ASHL(i, 2), (t & ~0x02), UINT32);
+	//	i += 1;
+	//}
+	//__GET(Kernel_kernelpd, pt, INT32);
+	//pt -= 7;
+	//__PUT(pt, 0, INT32);
+	//i = 240;
+	//while (i <= 255) {
+	//	__GET(pt + __ASHL(i, 2), t, UINT32);
+	//	__PUT(pt + __ASHL(i, 2), (t & ~0x02), UINT32);
+	//	i += 1;
+	//}
+	//i = 256;
+	//while (i <= 259) {
+	//	__GET(pt + __ASHL(i, 2), t, UINT32);
+	//	__PUT(pt + __ASHL(i, 2), (t & ~0x02), UINT32);
+	//	i += 1;
+	//}
+	//__PUT(1138, 4660, INT16);
+	//Kernel_ktss.CR3 = Kernel_kernelpd;
+	//Kernel_EnableMM(Kernel_kernelpd);
 }
 
 static void Kernel_Call15 (void)
@@ -3250,12 +3271,13 @@ __TDESC(Kernel_TSSDesc, 1, 0) = {__TDFLDS("TSSDesc", 8300), {-4}};
 __TDESC(Kernel_V86Regs, 1, 0) = {__TDFLDS("V86Regs", 76), {-4}};
 __TDESC(Kernel_MilliTimer, 1, 0) = {__TDFLDS("MilliTimer", 4), {-4}};
 __TDESC(Kernel__1, 1, 0) = {__TDFLDS("", 12), {-4}};
-__TDESC(Kernel__1, 1, 0) = {__TDFLDS("", 4), {-4}};
-__TDESC(Kernel__2, 1, 0) = {__TDFLDS("", 48), {-4}};
+__TDESC(Kernel__11, 1, 0) = {__TDFLDS("", 4), {-4}};
+__TDESC(Kernel__22, 1, 0) = {__TDFLDS("", 48), {-4}};
 
 export void *Kernel__init(void)
 {
 	__DEFMOD;
+	__MODULE_IMPORT(Heap);
 	__REGMOD("Kernel", EnumPtrs);
 	__REGCMD("GC", Kernel_GC);
 	__REGCMD("SetLogMark", Kernel_SetLogMark);
@@ -3276,8 +3298,8 @@ export void *Kernel__init(void)
 	__INITYP(Kernel_V86Regs, Kernel_V86Regs, 0);
 	__INITYP(Kernel_MilliTimer, Kernel_MilliTimer, 0);
 	__INITYP(Kernel__1, Kernel__1, 0);
-	__INITYP(Kernel__1, Kernel__1, 0);
-	__INITYP(Kernel__2, Kernel__2, 0);
+	__INITYP(Kernel__11, Kernel__11, 0);
+	__INITYP(Kernel__22, Kernel__22, 0);
 /* BEGIN */
 	__GETREG(0, Kernel_bt, INT32);
 	__GETREG(6, Kernel_kpar[0], INT32);
@@ -3290,7 +3312,7 @@ export void *Kernel__init(void)
 	Kernel_traceConsole = 0;
 	Kernel_shutdown = 0;
 	Kernel_tlpt = 0;
-	Kernel_ReadBootTable();
+	//Kernel_ReadBootTable();
 	Kernel_CheckMemory();
 	Kernel_pageheap0 = Kernel_pageheap;
 	Kernel_pageheap1 = 0;

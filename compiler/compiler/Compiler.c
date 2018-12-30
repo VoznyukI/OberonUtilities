@@ -20,11 +20,12 @@
 #include "Oberon.h"
 #include "Texts.h"
 
+#include <stdio.h>
 
 static Texts_Writer Compiler_W;
 
 
-export void Compiler_Compile (void);
+export void Compiler_Compile (CHAR *file_name, ADDRESS name__len, CHAR *options_name, ADDRESS options__len);
 export void Compiler_CompileFile (CHAR *name, ADDRESS name__len, CHAR *opt, ADDRESS opt__len, BOOLEAN *error);
 static void Compiler_CompileText (Texts_Text t, INT32 pos, Display_Frame frame, CHAR *opt, ADDRESS opt__len, BOOLEAN *error);
 static INT32 Compiler_GetBreakPC (void);
@@ -352,6 +353,9 @@ void Compiler_CompileFile (CHAR *name, ADDRESS name__len, CHAR *opt, ADDRESS opt
 	__DUP(name, name__len, CHAR);
 	__DUP(opt, opt__len, CHAR);
 	__NEW(t, Texts_TextDesc);
+
+    pc = 0; //TODO
+
 	Texts_Open(t, name, name__len);
 	if (t->len != 0) {
 		Texts_OpenReader(&r, Texts_Reader__typ, t, 0);
@@ -377,8 +381,11 @@ void Compiler_CompileFile (CHAR *name, ADDRESS name__len, CHAR *opt, ADDRESS opt
 	__DEL(opt);
 }
 
-void Compiler_Compile (void)
+void Compiler_Compile (CHAR *file_name, ADDRESS name__len, CHAR *options_name, ADDRESS options__len)
 {
+    Texts_Text text;
+    Texts_Writer text_W;
+
 	Texts_Scanner S;
 	CHAR globalOpt[32], localOpt[32];
 	Texts_Text t;
@@ -387,7 +394,20 @@ void Compiler_Compile (void)
 	CHAR name[64];
 	BOOLEAN error;
 	error = 0;
-	Texts_OpenScanner(&S, Texts_Scanner__typ, Oberon_Par->text, Oberon_Par->pos);
+
+	__NEW(text, Texts_TextDesc);
+	Texts_Open(text, (CHAR*)"", 1);
+
+    Texts_OpenWriter(&text_W, Texts_Writer__typ);
+
+	Texts_WriteString(&text_W, Texts_Writer__typ, file_name, name__len);
+
+    Texts_WriteLn(&text_W, Texts_Writer__typ);
+
+	Texts_Append(text, text_W.buf);
+
+    Texts_OpenScanner( &S, Texts_Scanner__typ, text, 0 );
+
 	Texts_Scan(&S, Texts_Scanner__typ);
 	globalOpt[0] = 0x00;
 	Compiler_GetOptions(&S, Texts_Scanner__typ, (void*)globalOpt, 32);
@@ -418,8 +438,7 @@ void Compiler_Compile (void)
 			__COPY(S.s, name, 64);
 			__COPY(globalOpt, localOpt, 32);
 			Texts_Scan(&S, Texts_Scanner__typ);
-			Compiler_GetOptions(&S, Texts_Scanner__typ, (void*)localOpt, 32);
-			Compiler_CompileFile(name, 64, localOpt, 32, &error);
+			Compiler_CompileFile(name, 64, options_name, 32, &error);
 		}
 	}
 }
@@ -432,9 +451,28 @@ static void EnumPtrs(void (*P)(void*))
 
 export int main(int argc, char **argv)
 {
+    char* name; // TODO
+    int i;
+    char* options;
+    int j;
+    INT32 len;
+    Files_File f;
+    CHAR* fname = (CHAR*)"System.Log";
+
 	__INIT(argc, argv);
 	__MODULE_IMPORT(Display);
 	__MODULE_IMPORT(Modules);
+	//__MODULE_IMPORT(OPB);
+	//__MODULE_IMPORT(OPC);
+	//__MODULE_IMPORT(OPL);
+	//__MODULE_IMPORT(OPM);
+	//__MODULE_IMPORT(OPO);
+	//__MODULE_IMPORT(OPP);
+	//__MODULE_IMPORT(OPS);
+	//__MODULE_IMPORT(OPT);
+	//__MODULE_IMPORT(OPV);
+	__MODULE_IMPORT(Oberon);
+	__MODULE_IMPORT(Texts);
 	__MODULE_IMPORT(OPB);
 	__MODULE_IMPORT(OPC);
 	__MODULE_IMPORT(OPL);
@@ -444,12 +482,45 @@ export int main(int argc, char **argv)
 	__MODULE_IMPORT(OPS);
 	__MODULE_IMPORT(OPT);
 	__MODULE_IMPORT(OPV);
-	__MODULE_IMPORT(Oberon);
-	__MODULE_IMPORT(Texts);
 	__REGMAIN("Compiler", EnumPtrs);
 	__REGCMD("Compile", Compiler_Compile);
 /* BEGIN */
+
 	Texts_OpenWriter(&Compiler_W, Texts_Writer__typ);
 	Compiler_SignOn();
+
+    //TODO
+
+    if ( argc < 2 )
+        return;
+    
+    name = argv[ 1 ];
+    for ( i = 0; ; ++i )
+    {
+        if ( 0 == name[ i ] )
+            break;
+    }
+
+    j = 0;
+    options = "";
+    if ( argc > 2 )
+    {    
+        options = argv[ 2 ];
+        for ( j = 0; ; ++j )
+        {
+            if ( 0 == options[ j ] )
+                break;
+        }
+    }
+
+    printf("Compile file: %s\n", name);
+
+    Compiler_Compile( (CHAR*)name, i + 1, (CHAR*)options, j + 1 );
+
+    //TODO
+    f = Files_New( fname, 11);
+    Texts_Store( Oberon_Log, f, 0, &len);
+    Files_Register(f);
+
 	__FINI;
 }

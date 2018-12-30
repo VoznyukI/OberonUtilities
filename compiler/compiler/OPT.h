@@ -40,8 +40,7 @@ typedef
 
 typedef
 	struct OPT_ObjDesc {
-		OPT_Object left, right, link, scope, myscope, link2;
-		char _prvt0[4];
+		OPT_Object left, right, link, scope, myscope, link2, old;
 		INT8 prio, sysflag;
 		OPT_Node code;
 		OPS_Name name;
@@ -51,8 +50,7 @@ typedef
 		OPT_Const conval;
 		INT32 adr, linkadr;
 		OPT_Object nxtobj, sibling;
-		char _prvt1[1];
-		BOOLEAN inited, used;
+		BOOLEAN par, inited, used;
 		INT32 fp;
 		INT8 history;
 		INT32 txtpos;
@@ -60,9 +58,14 @@ typedef
 	} OPT_ObjDesc;
 
 typedef
+	struct {
+		ADDRESS len[1];
+		OPT_Struct data[1];
+	} *OPT_StructArr;
+
+typedef
 	struct OPT_ModDesc { /* OPT_ObjDesc */
-		OPT_Object left, right, link, scope, myscope, link2;
-		char _prvt0[4];
+		OPT_Object left, right, link, scope, myscope, link2, old;
 		INT8 prio, sysflag;
 		OPT_Node code;
 		OPS_Name name;
@@ -72,15 +75,19 @@ typedef
 		OPT_Const conval;
 		INT32 adr, linkadr;
 		OPT_Object nxtobj, sibling;
-		char _prvt1[1];
-		BOOLEAN inited, used;
+		BOOLEAN par, inited, used;
 		INT32 fp;
 		INT8 history;
 		INT32 txtpos;
 		UINT32 flag;
 		OPT_Object publics;
 		BOOLEAN directImp;
-		char _prvt2[23];
+		INT16 nofimp;
+		OPT_ModArr import_;
+		INT16 nofstr;
+		OPT_StructArr struct_;
+		INT16 nofreimp;
+		OPT_StructArr reimp;
 	} OPT_ModDesc;
 
 typedef

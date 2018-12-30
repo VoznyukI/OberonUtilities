@@ -23,21 +23,21 @@ struct Modules__1 {
 	} *offset;
 };
 
-struct Modules__1 {
+struct Modules__11 {
 	INT32 word[32000];
 };
 
 typedef
-	struct Modules__1 *TDesc__46;
+	struct Modules__11 *TDesc__45;
 
 struct Modules__3 {
 	BOOLEAN initialized;
-	TDesc__46 tdesc;
+	TDesc__45 tdesc;
 	INT16 entry, root, nofMeth, nofInhMeth, baseMod;
 	INT32 baseEntry;
 };
 
-struct Modules__2 {
+struct Modules__22 {
 	INT32 len[1];
 	INT32 data[1];
 };
@@ -72,9 +72,9 @@ static BOOLEAN Modules_trace;
 export ADDRESS *Modules_Header__typ;
 export ADDRESS *Modules__2__typ;
 export ADDRESS *Modules__1__typ;
-export ADDRESS *Modules__1__typ;
+export ADDRESS *Modules__11__typ;
 export ADDRESS *Modules__3__typ;
-export ADDRESS *Modules__2__typ;
+export ADDRESS *Modules__22__typ;
 
 static INT32 Modules_And (INT32 x, INT32 y);
 static void Modules_Ch (CHAR ch);
@@ -87,14 +87,27 @@ export void Modules_InstallTermHandler (Kernel_Proc h);
 static INT32 Modules_LSW (INT32 x);
 static void Modules_Ln (void);
 static void Modules_Load (CHAR *name, ADDRESS name__len, Kernel_Module *m);
-static void Modules_LoadModule (OFS_Rider *R, ADDRESS *R__typ, Kernel_Module *m);
+static void Modules_LoadModule (Files_Rider *R, ADDRESS *R__typ, Kernel_Module *m);
 static INT32 Modules_MSW (INT32 x);
-static void Modules_ReadString (OFS_Rider *R, ADDRESS *R__typ, CHAR *string, ADDRESS string__len);
-static void Modules_ReadUnsigned (OFS_Rider *R, ADDRESS *R__typ, INT32 *u);
+static void Modules_ReadString (Files_Rider *R, ADDRESS *R__typ, CHAR *string, ADDRESS string__len);
+static void Modules_ReadUnsigned (Files_Rider *R, ADDRESS *R__typ, INT32 *u);
 static void Modules_Str (CHAR *s, ADDRESS s__len);
 export Kernel_Proc Modules_ThisCommand (Kernel_Module mod, CHAR *name, ADDRESS name__len);
 export Kernel_Module Modules_ThisMod (CHAR *name, ADDRESS name__len);
 
+extern void Heap_InitHeap();
+
+void Modules_Init(INT32 argc, ADDRESS argv)
+{
+	//Modules_MainStackFrame = argv;
+	//Modules_ArgCount = __VAL(INT16, argc);
+	//__GET(argv, Modules_ArgVector, INT32);
+	
+    //Modules_InitHeap(); 
+    Heap_InitHeap();
+
+	//Modules_ModulesInit();
+}
 
 static INT32 Modules_LSW (INT32 x)
 {
@@ -106,7 +119,7 @@ static INT32 Modules_MSW (INT32 x)
 	return __LSHR(x, 16, 32);
 }
 
-static void Modules_ReadUnsigned (OFS_Rider *R, ADDRESS *R__typ, INT32 *u)
+static void Modules_ReadUnsigned (Files_Rider *R, ADDRESS *R__typ, INT32 *u)
 {
 	CHAR low, high;
 	Files_Read(&*R, R__typ, (void*)&low);
@@ -198,7 +211,7 @@ static INT32 Modules_And (INT32 x, INT32 y)
 	return (INT32)(((UINT32)x & (UINT32)y));
 }
 
-static void Modules_ReadString (OFS_Rider *R, ADDRESS *R__typ, CHAR *string, ADDRESS string__len)
+static void Modules_ReadString (Files_Rider *R, ADDRESS *R__typ, CHAR *string, ADDRESS string__len)
 {
 	INT16 i;
 	CHAR ch;
@@ -220,7 +233,7 @@ static void Modules_ReadString (OFS_Rider *R, ADDRESS *R__typ, CHAR *string, ADD
 }
 
 static struct LoadModule__12 {
-	OFS_Rider *R;
+	Files_Rider *R;
 	ADDRESS *R__typ;
 	Kernel_Module *m;
 	Modules_DataLinkTab *dataLinks;
@@ -233,7 +246,7 @@ static struct LoadModule__12 {
 } *LoadModule__12_s;
 
 static void BuildModuleBlock__15 (Kernel_Module m, Modules_Header h);
-static void CheckUseBlock__17 (OFS_Rider *R, ADDRESS *R__typ, Kernel_Module M);
+static void CheckUseBlock__17 (Files_Rider *R, ADDRESS *R__typ, Kernel_Module M);
 static BOOLEAN Expect__23 (CHAR tag);
 static void FindTDescAdr__25 (Kernel_Module M, INT32 fp, INT32 *adr);
 static void Fixup__27 (Kernel_Module m, Modules_LinkTab link);
@@ -241,8 +254,8 @@ static void FixupCall__29 (INT32 code, INT32 link, INT32 fixval);
 static void FixupVar__31 (INT32 code, INT32 link, INT32 fixval);
 static void InitType__33 (INT32 i);
 static void InitTypes__35 (void);
-static void LoadExpBlock__37 (OFS_Rider *R, ADDRESS *R__typ, Kernel_Module M);
-static void ReadTypes__43 (OFS_Rider *R, ADDRESS *R__typ);
+static void LoadExpBlock__37 (Files_Rider *R, ADDRESS *R__typ, Kernel_Module M);
+static void ReadTypes__42 (Files_Rider *R, ADDRESS *R__typ);
 
 static void FixupCall__29 (INT32 code, INT32 link, INT32 fixval)
 {
@@ -349,7 +362,7 @@ static void Fixup__27 (Kernel_Module m, Modules_LinkTab link)
 }
 
 static struct LoadExpBlock__37__38 {
-	OFS_Rider *R;
+	Files_Rider *R;
 	ADDRESS *R__typ;
 	struct {
 		ADDRESS len[1];
@@ -381,7 +394,10 @@ static void LoadScope__39 (Kernel_ExportDesc *scope, ADDRESS *scope__typ, INT16 
 	}
 	if (level == 1) {
 		*LoadExpBlock__37__38_s->nofStr += 1;
-		if (*LoadExpBlock__37__38_s->nofStr == 1) {
+        //if ((*LoadExpBlock__37__38_s->struct_)->len[ 0 ] == 1) {
+//		if (*LoadExpBlock__37__38_s->nofStr == 1) { //TODO
+		if ( *LoadExpBlock__37__38_s->nofStr == (*LoadExpBlock__37__38_s->struct_)->len[ 0 ] ) {
+//    IF nofStr = 1 (* LEN(struct) *)  THEN
 			*LoadExpBlock__37__38_s->old = *LoadExpBlock__37__38_s->struct_;
 			*LoadExpBlock__37__38_s->struct_ = __NEWARR(NIL, 4, 4, 1, 1, ((ADDRESS)((__ASHL(*LoadExpBlock__37__38_s->nofStr, 1)))));
 			_for__41 = *LoadExpBlock__37__38_s->nofStr - 1;
@@ -402,6 +418,7 @@ static void LoadScope__39 (Kernel_ExportDesc *scope, ADDRESS *scope__typ, INT16 
 				((*scope).dsc->data)[__X(no2, (*scope).dsc->len[0])]->nofExp = (*LoadExpBlock__37__38_s->exp)->nofExp;
 				((*scope).dsc->data)[__X(no2, (*scope).dsc->len[0])]->dsc = (*LoadExpBlock__37__38_s->exp)->dsc;
 			} else {
+                //TODO see Modules.Mod
 				LoadScope__39(&*((*scope).dsc->data)[__X(no2, (*scope).dsc->len[0])], __TYPEOF(((*scope).dsc->data)[__X(no2, (*scope).dsc->len[0])]), 1, off);
 			}
 		} else {
@@ -416,7 +433,7 @@ static void LoadScope__39 (Kernel_ExportDesc *scope, ADDRESS *scope__typ, INT16 
 	}
 }
 
-static void LoadExpBlock__37 (OFS_Rider *R, ADDRESS *R__typ, Kernel_Module M)
+static void LoadExpBlock__37 (Files_Rider *R, ADDRESS *R__typ, Kernel_Module M)
 {
 	struct {
 		ADDRESS len[1];
@@ -439,7 +456,7 @@ static void LoadExpBlock__37 (OFS_Rider *R, ADDRESS *R__typ, Kernel_Module M)
 }
 
 static struct CheckUseBlock__17__18 {
-	OFS_Rider *R;
+	Files_Rider *R;
 	ADDRESS *R__typ;
 	Kernel_Module *M;
 	Kernel_Module *mod;
@@ -473,7 +490,7 @@ static void CheckScope__19 (Kernel_ExportDesc scope, INT16 level)
 		if (fp == 1) {
 			Files_ReadNum(&*CheckUseBlock__17__18_s->R, CheckUseBlock__17__18_s->R__typ, &link);
 			if (tmpErr) {
-				CheckScope__19(*(scope.dsc->data)[__X(i, scope.dsc->len[0])], -1);
+				CheckScope__19(*(scope.dsc->data)[__X(i, scope.dsc->len[0])], -1); //TODO see Modules.Mod
 			} else {
 				if ((scope.dsc->data)[__X(i, scope.dsc->len[0])]->dsc != NIL) {
 					if (link != 0) {
@@ -482,7 +499,7 @@ static void CheckScope__19 (Kernel_ExportDesc scope, INT16 level)
 						__PUT((*CheckUseBlock__17__18_s->M)->sb - link, tdadr, INT32);
 					}
 				}
-				CheckScope__19(*(scope.dsc->data)[__X(i, scope.dsc->len[0])], 1);
+				CheckScope__19(*(scope.dsc->data)[__X(i, scope.dsc->len[0])], 1); //TODO see Modules.Mod
 			}
 		} else {
 			Modules_ReadString(&*CheckUseBlock__17__18_s->R, CheckUseBlock__17__18_s->R__typ, (void*)*CheckUseBlock__17__18_s->name, 32);
@@ -520,7 +537,7 @@ static void CheckScope__19 (Kernel_ExportDesc scope, INT16 level)
 	}
 }
 
-static void CheckUseBlock__17 (OFS_Rider *R, ADDRESS *R__typ, Kernel_Module M)
+static void CheckUseBlock__17 (Files_Rider *R, ADDRESS *R__typ, Kernel_Module M)
 {
 	Kernel_Module mod;
 	Kernel_Name name;
@@ -570,19 +587,19 @@ static void FindTDescAdr__25 (Kernel_Module M, INT32 fp, INT32 *adr)
 	}
 }
 
-static void ReadTypes__43 (OFS_Rider *R, ADDRESS *R__typ)
+static void ReadTypes__42 (Files_Rider *R, ADDRESS *R__typ)
 {
 	INT32 i, j, k, tdsize, recordSize;
 	INT16 tdEntry, nofMethods, nofNewMeths, mthNo, nofPointers, root, entryNo;
-	TDesc__46 td;
+	TDesc__45 td;
 	Kernel_Name name;
 	CHAR ch;
-	INT32 _for__45;
+	INT32 _for__44;
 	if ((*LoadModule__12_s->m)->tdescs->len[0] != 0) {
 		*LoadModule__12_s->types = __NEWARR(Modules__3__typ, 24, 4, 1, 1, ((ADDRESS)(((*LoadModule__12_s->m)->tdescs->len[0]))));
-		_for__45 = (*LoadModule__12_s->m)->tdescs->len[0] - 1;
+		_for__44 = (*LoadModule__12_s->m)->tdescs->len[0] - 1;
 		i = 0;
-		while (i <= _for__45) {
+		while (i <= _for__44) {
 			((*LoadModule__12_s->types)->data)[__X(i, (*LoadModule__12_s->types)->len[0])].initialized = 0;
 			Files_ReadLInt(&*R, R__typ, &recordSize);
 			Files_ReadInt(&*R, R__typ, &tdEntry);
@@ -642,7 +659,7 @@ static void InitType__33 (INT32 i)
 {
 	INT32 t, baseType, tag, entry;
 	INT16 extlev, n, root, baseModNo;
-	TDesc__46 td;
+	TDesc__45 td;
 	Kernel_Module baseMod;
 	if (!((*LoadModule__12_s->types)->data)[__X(i, (*LoadModule__12_s->types)->len[0])].initialized) {
 		td = ((*LoadModule__12_s->types)->data)[__X(i, (*LoadModule__12_s->types)->len[0])].tdesc;
@@ -698,45 +715,87 @@ static void InitTypes__35 (void)
 static void BuildModuleBlock__15 (Kernel_Module m, Modules_Header h)
 {
 	INT32 t, size, gvarSize;
-	struct Modules__2 *arrPtr;
+	struct Modules__22 *arrPtr;
 	size = __ASHL(((((((__ASHR(__ASHL(h.nofEntries, 2) + 35, 4) + __ASHR(h.nofCmds * 36 + 35, 4)) + __ASHR(__ASHL(h.nofPtrs, 2) + 35, 4)) + __ASHR(__ASHL(h.nofTds, 2) + 35, 4)) + __ASHR(__ASHL(h.nofImps, 2) + 35, 4)) + __ASHR(((h.dataSize + __MASK(-h.dataSize, -8)) + h.conSize) + 35, 4)) + __ASHR(h.codeSize + 35, 4)) + __ASHR(h.refSize + 35, 4), 4);
 	__SYSNEW(arrPtr, size);
-	__GET((INT32)(ADDRESS)arrPtr, t, INT32);
-	__PUT((ADDRESS)&m->entries, (ADDRESS)&arrPtr + 4, INT32);
-	arrPtr->len[0] = h.nofEntries;
+	//__GET((INT32)(ADDRESS)arrPtr, t, INT32);
+	//__PUT((ADDRESS)&m->entries, (ADDRESS)arrPtr + 4, INT32);
+	//arrPtr->len[0] = h.nofEntries;
+
+	__PUT((ADDRESS)&m->entries, (ADDRESS)arrPtr, INT32);
+    //m->entries = (ADDRESS)arrPtr;
+	//__PUT((ADDRESS)&(m->entries->data[ 0 ]), (ADDRESS)arrPtr + 4, INT32);
+    //m->entries->data[ 0 ] = (ADDRESS)arrPtr + 8;
+        m->entries->len[ 0 ] = h.nofEntries;
+
 	(INT32)(ADDRESS)arrPtr += __ASHL(__ASHR(__ASHL(h.nofEntries, 2) + 35, 4), 4);
-	__PUT((INT32)(ADDRESS)arrPtr, t, INT32);
-	__PUT((ADDRESS)&m->cmds, (ADDRESS)&arrPtr + 4, INT32);
-	arrPtr->len[0] = h.nofCmds;
+
+	//__PUT((INT32)(ADDRESS)arrPtr, t, INT32);
+	//__PUT((ADDRESS)&m->cmds, (ADDRESS)arrPtr + 4, INT32);
+	__PUT((ADDRESS)&m->cmds, (ADDRESS)arrPtr, INT32);
+	//__PUT((ADDRESS)&m->cmds->data[ 0 ], (ADDRESS)arrPtr + 4, INT32);
+	m->cmds->len[0] = h.nofCmds;
+
 	(INT32)(ADDRESS)arrPtr += __ASHL(__ASHR(h.nofCmds * 36 + 35, 4), 4);
-	__PUT((INT32)(ADDRESS)arrPtr, t, INT32);
-	__PUT((ADDRESS)&m->ptrTab, (ADDRESS)&arrPtr + 4, INT32);
-	arrPtr->len[0] = h.nofPtrs;
+
+	//__PUT((INT32)(ADDRESS)arrPtr, t, INT32);
+	//__PUT((ADDRESS)&m->ptrTab, (ADDRESS)arrPtr + 4, INT32);
+	//arrPtr->len[0] = h.nofPtrs;
+	__PUT((ADDRESS)&m->ptrTab, (ADDRESS)arrPtr, INT32);
+	//__PUT((ADDRESS)&m->ptrTab->data[ 0 ], (ADDRESS)arrPtr + 4, INT32);
+	m->ptrTab->len[0] = h.nofPtrs;
+
 	(INT32)(ADDRESS)arrPtr += __ASHL(__ASHR(__ASHL(h.nofPtrs, 2) + 35, 4), 4);
-	__PUT((INT32)(ADDRESS)arrPtr, t, INT32);
-	__PUT((ADDRESS)&m->tdescs, (ADDRESS)&arrPtr + 4, INT32);
-	arrPtr->len[0] = h.nofTds;
+	
+	//__PUT((INT32)(ADDRESS)arrPtr, t, INT32);
+	//__PUT((ADDRESS)&m->tdescs, (ADDRESS)arrPtr + 4, INT32);
+	//arrPtr->len[0] = h.nofTds;
+	__PUT((ADDRESS)&m->tdescs, (ADDRESS)arrPtr, INT32);
+	//__PUT((ADDRESS)&m->tdescs->data[ 0 ], (ADDRESS)arrPtr + 4, INT32);
+	m->tdescs->len[0] = h.nofTds;
+
 	(INT32)(ADDRESS)arrPtr += __ASHL(__ASHR(__ASHL(h.nofTds, 2) + 35, 4), 4);
-	__PUT((INT32)(ADDRESS)arrPtr, t, INT32);
-	__PUT((ADDRESS)&m->imports, (ADDRESS)&arrPtr + 4, INT32);
-	arrPtr->len[0] = h.nofImps;
+
+	//__PUT((INT32)(ADDRESS)arrPtr, t, INT32);
+	//__PUT((ADDRESS)&m->imports, (ADDRESS)arrPtr + 4, INT32);
+	//arrPtr->len[0] = h.nofImps;
+	__PUT((ADDRESS)&m->imports, (ADDRESS)arrPtr, INT32);
+	//__PUT((ADDRESS)&m->imports->data[ 0 ], (ADDRESS)arrPtr + 4, INT32);
+	m->imports->len[0] = h.nofImps;
+
 	(INT32)(ADDRESS)arrPtr += __ASHL(__ASHR(__ASHL(h.nofImps, 2) + 35, 4), 4);
-	__PUT((INT32)(ADDRESS)arrPtr, t, INT32);
-	__PUT((ADDRESS)&m->data, (ADDRESS)&arrPtr + 4, INT32);
+
+	//__PUT((INT32)(ADDRESS)arrPtr, t, INT32);
+	//__PUT((ADDRESS)&m->data, (ADDRESS)arrPtr + 4, INT32);
+    //m->data->data[ 0 ] = (ADDRESS)arrPtr;
+	__PUT((ADDRESS)&m->data, (ADDRESS)arrPtr, INT32);
+	//__PUT((ADDRESS)&m->data->data[ 0 ], (ADDRESS)arrPtr + 4, INT32);
+
 	gvarSize = h.dataSize + __MASK(-h.dataSize, -8);
-	m->sb = ((ADDRESS)arrPtr->data) + gvarSize;
-	arrPtr->len[0] = gvarSize + h.conSize;
+	m->sb = ((ADDRESS)arrPtr->data) + gvarSize; //TODO test it
+	//arrPtr->len[0] = gvarSize + h.conSize;
+	m->data->len[0] = gvarSize + h.conSize;
+
 	(INT32)(ADDRESS)arrPtr += __ASHL(__ASHR((gvarSize + h.conSize) + 35, 4), 4);
-	__PUT((INT32)(ADDRESS)arrPtr, t, INT32);
-	__PUT((ADDRESS)&m->code, (ADDRESS)&arrPtr + 4, INT32);
-	arrPtr->len[0] = h.codeSize;
+
+ //   __PUT((INT32)(ADDRESS)arrPtr, t, INT32);
+	//__PUT((ADDRESS)&m->code, (ADDRESS)arrPtr + 4, INT32);
+	//arrPtr->len[0] = h.codeSize;
+	__PUT((ADDRESS)&m->code, (ADDRESS)arrPtr, INT32);
+	//__PUT((ADDRESS)&m->code->data[ 0 ], (ADDRESS)arrPtr + 4, INT32);
+	m->code->len[0] = h.codeSize;
+
 	(INT32)(ADDRESS)arrPtr += __ASHL(__ASHR(h.codeSize + 35, 4), 4);
-	__PUT((INT32)(ADDRESS)arrPtr, t, INT32);
-	__PUT((ADDRESS)&m->refs, (ADDRESS)&arrPtr + 4, INT32);
-	arrPtr->len[0] = h.refSize;
+
+ //   __PUT((INT32)(ADDRESS)arrPtr, t, INT32);
+	//__PUT((ADDRESS)&m->refs, (ADDRESS)arrPtr + 4, INT32);
+	//arrPtr->len[0] = h.refSize;
+	__PUT((ADDRESS)&m->refs, (ADDRESS)arrPtr, INT32);
+	//__PUT((ADDRESS)&m->refs->data[ 0 ], (ADDRESS)arrPtr + 4, INT32);
+	m->refs->len[0] = h.refSize;
 }
 
-static void Modules_LoadModule (OFS_Rider *R, ADDRESS *R__typ, Kernel_Module *m)
+static void Modules_LoadModule (Files_Rider *R, ADDRESS *R__typ, Kernel_Module *m)
 {
 	CHAR ch;
 	INT32 i, mno, j, symSize, e, k, t;
@@ -762,6 +821,9 @@ static void Modules_LoadModule (OFS_Rider *R, ADDRESS *R__typ, Kernel_Module *m)
 	_s.types = &types;
 	_s.lnk = LoadModule__12_s;
 	LoadModule__12_s = &_s;
+
+    return; //TODO
+
 	Modules_res = 0;
 	Modules_Clear();
 	__NEW(*m, Kernel_ModuleDesc);
@@ -833,6 +895,9 @@ static void Modules_LoadModule (OFS_Rider *R, ADDRESS *R__typ, Kernel_Module *m)
 		LoadModule__12_s = _s.lnk;
 		return;
 	}
+		
+    mno = 0; //TODO
+
 	if (head.nofImps != 0) {
 		mods = __NEWARR(NIL, 1, 1, 2, 1, ((ADDRESS)(head.nofImps)), 32);
 		mno = 0;
@@ -914,6 +979,8 @@ static void Modules_LoadModule (OFS_Rider *R, ADDRESS *R__typ, Kernel_Module *m)
 		LoadModule__12_s = _s.lnk;
 		return;
 	}
+
+    return; //TODO
 	CheckUseBlock__17(&*R, R__typ, *m);
 	if (Modules_res != 0) {
 		LoadModule__12_s = _s.lnk;
@@ -923,7 +990,7 @@ static void Modules_LoadModule (OFS_Rider *R, ADDRESS *R__typ, Kernel_Module *m)
 		LoadModule__12_s = _s.lnk;
 		return;
 	}
-	ReadTypes__43(&*R, R__typ);
+	ReadTypes__42(&*R, R__typ);
 	if (Modules_res != 0) {
 		LoadModule__12_s = _s.lnk;
 		return;
@@ -946,13 +1013,13 @@ static void Modules_LoadModule (OFS_Rider *R, ADDRESS *R__typ, Kernel_Module *m)
 			imp->refcnt += 1;
 		}
 		__PUT((*m)->sb, (INT32)(ADDRESS)*m, INT32);
-		Fixup__27(*m, linkTab);
+		//Fixup__27(*m, linkTab);
 		InitTypes__35();
 		(*m)->next = Kernel_modules;
 		Kernel_modules = *m;
 		(*m)->init = 1;
-		__PUT((ADDRESS)&body, (ADDRESS)&((*m)->code->data)[0], INT32);
-		(*body)();
+		//__PUT((ADDRESS)&body, (ADDRESS)&((*m)->code->data)[0], INT32);
+		//(*body)(); //TODO
 		Modules_res = 0;
 	} else {
 		*m = NIL;
@@ -962,8 +1029,8 @@ static void Modules_LoadModule (OFS_Rider *R, ADDRESS *R__typ, Kernel_Module *m)
 
 static void Modules_Load (CHAR *name, ADDRESS name__len, Kernel_Module *m)
 {
-	OFS_File f;
-	OFS_Rider R;
+	Files_File f;
+	Files_Rider R;
 	INT16 i, j;
 	CHAR fname[64];
 	CHAR tag;
@@ -1038,7 +1105,9 @@ Kernel_Proc Modules_ThisCommand (Kernel_Module mod, CHAR *name, ADDRESS name__le
 	INT32 i;
 	__DUP(name, name__len, CHAR);
 	if (mod != NIL) {
-		i = 0;
+//i := 0; (* LEN(mod.cmds); *)
+//		i = 0;
+        i = mod->cmds->len[ 0 ];
 		while (i > 0) {
 			i -= 1;
 			if (__STRCMP((mod->cmds->data)[__X(i, mod->cmds->len[0])].name, name) == 0) {
@@ -1089,14 +1158,18 @@ void Modules_Free (CHAR *name, ADDRESS name__len, BOOLEAN all)
 		Modules_ErrMsg(Modules_res);
 	} else {
 		Kernel_FinalizeModule(m);
-		i = 0;
+//i := 0; (* LEN(m.imports); *)
+//		i = 0;
+        i = m->imports->len[ 0 ];
 		while (i > 0) {
 			i -= 1;
 			m1 = (m->imports->data)[__X(i, m->imports->len[0])];
 			m1->refcnt -= 1;
 		}
 		if (all) {
-			i = 0;
+//		IF all THEN i := 0; (* LEN(m.imports); *)
+///			i = 0;
+            i = m->imports->len[ 0 ];
 			while (i > 0) {
 				i -= 1;
 				m1 = (m->imports->data)[__X(i, m->imports->len[0])];
@@ -1126,9 +1199,9 @@ void Modules_InstallTermHandler (Kernel_Proc h)
 __TDESC(Modules_Header, 1, 0) = {__TDFLDS("Header", 32), {-4}};
 __TDESC(Modules__2, 1, 0) = {__TDFLDS("", 8), {-4}};
 __TDESC(Modules__1, 1, 1) = {__TDFLDS("", 12), {8, -8}};
-__TDESC(Modules__1, 1, 0) = {__TDFLDS("", 128000), {-4}};
+__TDESC(Modules__11, 1, 0) = {__TDFLDS("", 128000), {-4}};
 __TDESC(Modules__3, 1, 1) = {__TDFLDS("", 24), {4, -8}};
-__TDESC(Modules__2, 1, 0) = {__TDFLDS("", 8), {-4}};
+__TDESC(Modules__22, 1, 0) = {__TDFLDS("", 8), {-4}};
 
 export void *Modules__init(void)
 {
@@ -1139,9 +1212,9 @@ export void *Modules__init(void)
 	__INITYP(Modules_Header, Modules_Header, 0);
 	__INITYP(Modules__2, Modules__2, 0);
 	__INITYP(Modules__1, Modules__1, 0);
-	__INITYP(Modules__1, Modules__1, 0);
+	__INITYP(Modules__11, Modules__11, 0);
 	__INITYP(Modules__3, Modules__3, 0);
-	__INITYP(Modules__2, Modules__2, 0);
+	__INITYP(Modules__22, Modules__22, 0);
 /* BEGIN */
 	Kernel_GetConfig((CHAR*)"ModExt", 7, (void*)Modules_extension, 8);
 	if (Modules_extension[0] == 0x00) {

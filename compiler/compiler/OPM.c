@@ -32,15 +32,17 @@ static INT32 OPM_lastpos, OPM_pat, OPM_refpatch;
 static Texts_Reader OPM_inR;
 static Texts_Text OPM_Log;
 static Texts_Writer OPM_W;
-static OFS_Rider OPM_oldSymF, OPM_newSymF, OPM_ObjF, OPM_RefF, OPM_ModF;
-static OFS_File OPM_RefFile, OPM_ObjFile, OPM_ModFile, OPM_oldSymFile, OPM_newSymFile;
+static Files_Rider OPM_oldSymF, OPM_newSymF, OPM_ObjF, OPM_RefF, OPM_ModF;
+static Files_File OPM_RefFile, OPM_ObjFile, OPM_ModFile, OPM_oldSymFile, OPM_newSymFile;
 
 export ADDRESS *OPM__1__typ;
 
 export void OPM_Begin (CHAR *modName, ADDRESS modName__len);
 export void OPM_Close (void);
 export void OPM_CloseObj (void);
-static void OPM_Commit (OFS_File F);
+
+static void OPM_Commit (Files_File F);
+
 export void OPM_EndObj (void);
 export void OPM_EndSym (void);
 static void OPM_ErrorMsg (INT16 n);
@@ -65,7 +67,7 @@ export void OPM_ObjWInt (INT16 i);
 export void OPM_ObjWLInt (INT32 i);
 export void OPM_ObjWNum (INT32 i);
 export void OPM_ObjWString (CHAR *s, ADDRESS s__len);
-export void OPM_OpenSym (OFS_Rider *R, ADDRESS *R__typ, CHAR *name, ADDRESS name__len, BOOLEAN self, BOOLEAN *done);
+export void OPM_OpenSym (Files_Rider *R, ADDRESS *R__typ, CHAR *name, ADDRESS name__len, BOOLEAN self, BOOLEAN *done);
 export void OPM_RefW (CHAR ch);
 export void OPM_RefWNum (INT32 i);
 export void OPM_SymW (CHAR b);
@@ -80,7 +82,7 @@ export void OPM_SymWReal (REAL r);
 export void OPM_SymWSet (UINT32 s);
 export void OPM_SymWString (CHAR *s, ADDRESS s__len);
 export void OPM_SymWTag (INT16 k);
-static void OPM_WString (OFS_Rider *R, ADDRESS *R__typ, CHAR *s, ADDRESS s__len);
+static void OPM_WString (Files_Rider *R, ADDRESS *R__typ, CHAR *s, ADDRESS s__len);
 export void OPM_err (INT16 n);
 
 
@@ -184,7 +186,7 @@ void OPM_FPrintLReal (INT32 *fp, LONGREAL lr)
 	OPM_FPrint(&*fp, h);
 }
 
-static void OPM_WString (OFS_Rider *R, ADDRESS *R__typ, CHAR *s, ADDRESS s__len)
+static void OPM_WString (Files_Rider *R, ADDRESS *R__typ, CHAR *s, ADDRESS s__len)
 {
 	INT16 i;
 	CHAR ch;
@@ -458,12 +460,12 @@ void OPM_ObjFillInt (INT32 pos, INT16 int_)
 	Files_Set(&OPM_ObjF, OFS_Rider__typ, OPM_ObjFile, savepos);
 }
 
-void OPM_OpenSym (OFS_Rider *R, ADDRESS *R__typ, CHAR *name, ADDRESS name__len, BOOLEAN self, BOOLEAN *done)
+void OPM_OpenSym (Files_Rider *R, ADDRESS *R__typ, CHAR *name, ADDRESS name__len, BOOLEAN self, BOOLEAN *done)
 {
 	CHAR fileName[512];
 	CHAR ch, ch1;
 	INT32 symSize;
-	OFS_File F;
+	Files_File F;
 	CHAR empty[1];
 	UINT32 flags;
 	empty[0] = 0x00;
@@ -513,15 +515,25 @@ void OPM_Begin (CHAR *modName, ADDRESS modName__len)
 	Files_Write(&OPM_ObjF, OFS_Rider__typ, 0xaf);
 }
 
-static void OPM_Commit (OFS_File F)
+static void OPM_Commit (Files_File F)
 {
 	CHAR ch;
-	OFS_Rider R;
-	Files_Set(&R, OFS_Rider__typ, F, 0);
-	Files_Read(&R, OFS_Rider__typ, (void*)&ch);
+
+	//OFS_Rider R;
+	Files_Rider R;
+
+	//Files_Set(&R, OFS_Rider__typ, F, 0);
+	//Files_Read(&R, OFS_Rider__typ, (void*)&ch);
+	//while (!R.eof) {
+	//	Files_Write(&OPM_ObjF, OFS_Rider__typ, ch);
+	//	Files_Read(&R, OFS_Rider__typ, (void*)&ch);
+	//}
+
+	Files_Set(&R, Files_Rider__typ, F, 0);
+	Files_Read(&R, Files_Rider__typ, (void*)&ch);
 	while (!R.eof) {
-		Files_Write(&OPM_ObjF, OFS_Rider__typ, ch);
-		Files_Read(&R, OFS_Rider__typ, (void*)&ch);
+		Files_Write(&OPM_ObjF, Files_Rider__typ, ch);
+		Files_Read(&R, Files_Rider__typ, (void*)&ch);
 	}
 }
 
@@ -553,7 +565,7 @@ void OPM_CloseObj (void)
 {
 	INT32 refsize;
 	CHAR ch;
-	OFS_Rider ref;
+	Files_Rider ref;
 	refsize = Files_Length(OPM_RefFile);
 	Files_Set(&ref, OFS_Rider__typ, OPM_RefFile, 0);
 	Files_Read(&ref, OFS_Rider__typ, (void*)&ch);

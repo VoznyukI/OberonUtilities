@@ -4,6 +4,9 @@
 #define Objects__h
 
 #include "SYSTEM.h"
+#include "Files.h"
+#include "Kernel.h"
+#include "Modules.h"
 
 typedef
 	struct Objects_ObjDesc *Objects_Object;
@@ -82,7 +85,11 @@ typedef
 		INT16 ref;
 		Objects_Handler handle;
 		Objects_Name GName;
-		char _prvt0[8];
+		INT32 len;
+		struct {
+			ADDRESS len[1];
+			CHAR data[1];
+		} *blk;
 	} Objects_DummyDesc;
 
 typedef
@@ -94,7 +101,7 @@ typedef
 		Objects_Object dlink;
 		INT16 id;
 		INT32 len;
-		OFS_Rider R;
+		Files_Rider R;
 	} Objects_FileMsg;
 
 typedef
@@ -114,14 +121,21 @@ typedef
 	} Objects_IndexDesc;
 
 typedef
+	CHAR Objects_GenName[64];
+
+typedef
 	struct Objects_LibDesc {
-		char _prvt0[4];
+		Objects_Library next;
 		Objects_Index ind;
-		char _prvt1[32];
+		Files_File f;
+		Files_Rider R;
 		Objects_Name name;
 		Objects_Dictionary dict;
 		INT16 maxref;
-		char _prvt2[4];
+		struct {
+			ADDRESS len[1];
+			Objects_GenName data[1];
+		} *GName;
 		void (*GenRef)(Objects_Library, INT16*);
 		void (*GetObj)(Objects_Library, INT16, Objects_Object*);
 		void (*PutObj)(Objects_Library, INT16, Objects_Object);
@@ -166,12 +180,12 @@ import void Objects_FreeLibrary (CHAR *name, ADDRESS name__len);
 import void Objects_GetKey (Objects_Dictionary *D, CHAR *name, ADDRESS name__len, INT16 *key);
 import void Objects_GetName (Objects_Dictionary *D, INT16 key, CHAR *name, ADDRESS name__len);
 import void Objects_GetRef (Objects_Dictionary *D, CHAR *name, ADDRESS name__len, INT16 *ref);
-import void Objects_LoadLibrary (Objects_Library L, OFS_File f, INT32 pos, INT32 *len);
+import void Objects_LoadLibrary (Objects_Library L, Files_File f, INT32 pos, INT32 *len);
 import void Objects_OpenLibrary (Objects_Library L);
 import void Objects_PutName (Objects_Dictionary *D, INT16 key, CHAR *name, ADDRESS name__len);
 import void Objects_Register (CHAR *ext, ADDRESS ext__len, Objects_NewProc new);
 import void Objects_Stamp (Objects_ObjMsg *M, ADDRESS *M__typ);
-import void Objects_StoreLibrary (Objects_Library L, OFS_File f, INT32 pos, INT32 *len);
+import void Objects_StoreLibrary (Objects_Library L, Files_File f, INT32 pos, INT32 *len);
 import Objects_Library Objects_ThisLibrary (CHAR *name, ADDRESS name__len);
 import void *Objects__init(void);
 

@@ -38,7 +38,7 @@ typedef
 
 typedef
 	struct Kernel_MilliTimer {
-		INT32 _prvt0;
+		INT32 target;
 	} Kernel_MilliTimer;
 
 typedef

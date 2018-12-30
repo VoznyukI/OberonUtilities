@@ -6,122 +6,123 @@
 #define SET      UINT32
 
 #include "SYSTEM.h"
+#include "OPT.h"
 #include "Files.h"
 #include "OPM.h"
 #include "OPS.h"
 
-typedef
-	struct OPT_ConstDesc *OPT_Const;
+//typedef
+//	struct OPT_ConstDesc *OPT_Const;
 
-typedef
-	OPS_String *OPT_ConstExt;
+//typedef
+//	OPS_String *OPT_ConstExt;
 
-typedef
-	struct OPT_ConstDesc {
-		OPT_ConstExt ext;
-		INT32 intval, intval2;
-		UINT32 setval;
-		LONGREAL realval;
-	} OPT_ConstDesc;
+//typedef
+//	struct OPT_ConstDesc {
+//		OPT_ConstExt ext;
+//		INT32 intval, intval2;
+//		UINT32 setval;
+//		LONGREAL realval;
+//	} OPT_ConstDesc;
 
-typedef
-	struct OPT_ModDesc *OPT_Module;
+//typedef
+//	struct OPT_ModDesc *OPT_Module;
 
-typedef
-	struct {
-		ADDRESS len[1];
-		OPT_Module data[1];
-	} *OPT_ModArr;
+//typedef
+//	struct {
+//		ADDRESS len[1];
+//		OPT_Module data[1];
+//	} *OPT_ModArr;
 
-typedef
-	struct OPT_ObjDesc *OPT_Object;
+//typedef
+//	struct OPT_ObjDesc *OPT_Object;
+//
+//typedef
+//	struct OPT_NodeDesc *OPT_Node;
+//
+//typedef
+//	struct OPT_StrDesc *OPT_Struct;
 
-typedef
-	struct OPT_NodeDesc *OPT_Node;
+//typedef
+	//struct OPT_ObjDesc {
+	//	OPT_Object left, right, link, scope, myscope, link2, old;
+	//	INT8 prio, sysflag;
+	//	OPT_Node code;
+	//	OPS_Name name;
+	//	BOOLEAN leaf;
+	//	INT8 mode, mnolev, vis;
+	//	OPT_Struct typ;
+	//	OPT_Const conval;
+	//	INT32 adr, linkadr;
+	//	OPT_Object nxtobj, sibling;
+	//	BOOLEAN par, inited, used;
+	//	INT32 fp;
+	//	INT8 history;
+	//	INT32 txtpos;
+	//	UINT32 flag;
+	//} OPT_ObjDesc;
 
-typedef
-	struct OPT_StrDesc *OPT_Struct;
+//typedef
+//	struct {
+//		ADDRESS len[1];
+//		OPT_Struct data[1];
+//	} *OPT_StructArr;
+//
+//typedef
+	//struct OPT_ModDesc { /* OPT_ObjDesc */
+	//	OPT_Object left, right, link, scope, myscope, link2, old;
+	//	INT8 prio, sysflag;
+	//	OPT_Node code;
+	//	OPS_Name name;
+	//	BOOLEAN leaf;
+	//	INT8 mode, mnolev, vis;
+	//	OPT_Struct typ;
+	//	OPT_Const conval;
+	//	INT32 adr, linkadr;
+	//	OPT_Object nxtobj, sibling;
+	//	BOOLEAN par, inited, used;
+	//	INT32 fp;
+	//	INT8 history;
+	//	INT32 txtpos;
+	//	UINT32 flag;
+	//	OPT_Object publics;
+	//	BOOLEAN directImp;
+	//	INT16 nofimp;
+	//	OPT_ModArr import_;
+	//	INT16 nofstr;
+	//	OPT_StructArr struct_;
+	//	INT16 nofreimp;
+	//	OPT_StructArr reimp;
+	//} OPT_ModDesc;
 
-typedef
-	struct OPT_ObjDesc {
-		OPT_Object left, right, link, scope, myscope, link2, old;
-		INT8 prio, sysflag;
-		OPT_Node code;
-		OPS_Name name;
-		BOOLEAN leaf;
-		INT8 mode, mnolev, vis;
-		OPT_Struct typ;
-		OPT_Const conval;
-		INT32 adr, linkadr;
-		OPT_Object nxtobj, sibling;
-		BOOLEAN par, inited, used;
-		INT32 fp;
-		INT8 history;
-		INT32 txtpos;
-		UINT32 flag;
-	} OPT_ObjDesc;
+//typedef
+//	struct OPT_NodeDesc {
+//		OPT_Node left, right, link;
+//		INT8 class, subcl;
+//		BOOLEAN readonly;
+//		OPT_Struct typ;
+//		OPT_Object obj;
+//		OPT_Const conval;
+//		BOOLEAN global;
+//		OPT_Node up, down;
+//		INT32 ref;
+//		INT8 flag, subflg;
+//	} OPT_NodeDesc;
 
-typedef
-	struct {
-		ADDRESS len[1];
-		OPT_Struct data[1];
-	} *OPT_StructArr;
-
-typedef
-	struct OPT_ModDesc { /* OPT_ObjDesc */
-		OPT_Object left, right, link, scope, myscope, link2, old;
-		INT8 prio, sysflag;
-		OPT_Node code;
-		OPS_Name name;
-		BOOLEAN leaf;
-		INT8 mode, mnolev, vis;
-		OPT_Struct typ;
-		OPT_Const conval;
-		INT32 adr, linkadr;
-		OPT_Object nxtobj, sibling;
-		BOOLEAN par, inited, used;
-		INT32 fp;
-		INT8 history;
-		INT32 txtpos;
-		UINT32 flag;
-		OPT_Object publics;
-		BOOLEAN directImp;
-		INT16 nofimp;
-		OPT_ModArr import_;
-		INT16 nofstr;
-		OPT_StructArr struct_;
-		INT16 nofreimp;
-		OPT_StructArr reimp;
-	} OPT_ModDesc;
-
-typedef
-	struct OPT_NodeDesc {
-		OPT_Node left, right, link;
-		INT8 class, subcl;
-		BOOLEAN readonly;
-		OPT_Struct typ;
-		OPT_Object obj;
-		OPT_Const conval;
-		BOOLEAN global;
-		OPT_Node up, down;
-		INT32 ref;
-		INT8 flag, subflg;
-	} OPT_NodeDesc;
-
-typedef
-	struct OPT_StrDesc {
-		INT8 form, comp, mno, extlev;
-		INT16 ref;
-		INT8 align, sysflag;
-		INT32 rectest, n, size, tdadr, offset, txtpos, txtpos2;
-		OPT_Struct BaseTyp;
-		OPT_Object link, strobj;
-		INT16 fpdone, sref, oref;
-		BOOLEAN pvused, pbused;
-		INT32 fp, pvfp, pbfp;
-		BOOLEAN incomplete;
-		OPT_Struct ptr;
-	} OPT_StrDesc;
+//typedef
+//	struct OPT_StrDesc {
+//		INT8 form, comp, mno, extlev;
+//		INT16 ref;
+//		INT8 align, sysflag;
+//		INT32 rectest, n, size, tdadr, offset, txtpos, txtpos2;
+//		OPT_Struct BaseTyp;
+//		OPT_Object link, strobj;
+//		INT16 fpdone, sref, oref;
+//		BOOLEAN pvused, pbused;
+//		INT32 fp, pvfp, pbfp;
+//		BOOLEAN incomplete;
+//		OPT_Struct ptr;
+//	} OPT_StrDesc;
 
 
 export OPT_Object OPT_topScope, OPT_objects;
@@ -206,7 +207,7 @@ static void OPT_OutRecord (OPT_Struct typ);
 export void OPT_OutScope (OPT_Object scope, BOOLEAN public);
 static void OPT_OutStruct (OPT_Struct typ);
 export void OPT_QualResolve (OPT_Object *obj, OPT_Node *x, OPT_Node *y, INT8 *distance, BOOLEAN *wrn);
-static void OPT_ReadString (OFS_Rider *R, ADDRESS *R__typ, CHAR *string, ADDRESS string__len);
+static void OPT_ReadString (Files_Rider *R, ADDRESS *R__typ, CHAR *string, ADDRESS string__len);
 export OPT_Object OPT_Resolve (CHAR *name, ADDRESS name__len, OPT_Node *x, OPT_Node *y);
 export void OPT_TraverseObjects (OPT_Object top);
 static void OPT_err (INT16 n);
@@ -1224,7 +1225,7 @@ static void OPT_CompOldSym (OPT_Object obj)
 	}
 }
 
-static void OPT_ReadString (OFS_Rider *R, ADDRESS *R__typ, CHAR *string, ADDRESS string__len)
+static void OPT_ReadString (Files_Rider *R, ADDRESS *R__typ, CHAR *string, ADDRESS string__len)
 {
 	INT16 i;
 	CHAR ch;
@@ -1260,7 +1261,7 @@ static void OPT_ReadString (OFS_Rider *R, ADDRESS *R__typ, CHAR *string, ADDRESS
 static struct Imp__31 {
 	OPS_Name *modName;
 	OPT_Module *M;
-	OFS_Rider *R;
+	Files_Rider *R;
 	INT32 *tag;
 	INT8 *mode;
 	OPT_Object *obj, *last;
@@ -1648,7 +1649,7 @@ static void InConst__36 (void)
 
 static void OPT_Imp (OPS_Name impName, OPS_Name modName, OPT_Module *M)
 {
-	OFS_Rider R;
+	Files_Rider R;
 	INT16 i;
 	INT32 tag;
 	BOOLEAN done;
@@ -2138,7 +2139,9 @@ void OPT_OutScope (OPT_Object scope, BOOLEAN public)
 	OPT_exp[15] = NIL;
 	OPT_Enumerate(scope);
 	i = 1;
-	while ((i < 100 && (OPT_modules->data)[__X(i, OPT_modules->len[0])] != NIL)) {
+//(*		WHILE (i < LEN(modules)) & (modules[i] # NIL) DO *)
+	//while ((i < 100 && (OPT_modules->data)[__X(i, OPT_modules->len[0])] != NIL)) {
+    while ((i < OPT_modules->len[0] && (OPT_modules->data)[__X(i, OPT_modules->len[0])] != NIL)) {
 		if ((OPT_modules->data)[__X(i, OPT_modules->len[0])]->directImp) {
 			OPT_OutMod((OPT_modules->data)[__X(i, OPT_modules->len[0])]);
 		}

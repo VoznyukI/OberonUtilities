@@ -6,17 +6,18 @@
 #define SET      UINT32
 
 #include "SYSTEM.h"
+#include "OPS.h"
 #include "OPM.h"
 
-typedef
-	struct OPS_Tok *OPS_Token;
+//typedef
+//	struct OPS_Tok *OPS_Token;
 
-typedef
-	struct OPS_Tok {
-		INT32 pos;
-		INT8 sym;
-		OPS_Token next;
-	} OPS_Tok;
+//typedef
+//	struct OPS_Tok {
+//		INT32 pos;
+//		INT8 sym;
+//		OPS_Token next;
+//	} OPS_Tok;
 
 struct OPS__1 {
 	INT32 pos;
@@ -40,8 +41,8 @@ struct OPS__2 {
 	LONGREAL lrlval;
 };
 
-typedef
-	CHAR OPS_String[256];
+//typedef
+//	CHAR OPS_String[256];
 
 struct OPS__5 {
 	INT32 pos;
@@ -51,8 +52,8 @@ struct OPS__5 {
 	INT32 len;
 };
 
-typedef
-	CHAR OPS_Name[32];
+//typedef
+//	CHAR OPS_Name[32];
 
 struct OPS__3 {
 	INT32 pos;
@@ -535,6 +536,7 @@ static void Comment__4 (void)
 		dump = 1;
 		OPM_LogWLn();
 	}
+    dump = 1; // TODO
 	for (;;) {
 		for (;;) {
 			while (OPS_ch == '(') {

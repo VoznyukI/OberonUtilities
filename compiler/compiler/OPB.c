@@ -2485,7 +2485,7 @@ void OPB_StPar1 (OPT_Node *par0, OPT_Node x, INT8 fctno)
 					x = p;
 					p = t;
 				} else if (x->class == 7) {
-					OPB_err(-306);
+					//OPB_err(-306); //TODO
 				}
 				p = NewOp__59(19, fctno, p, x);
 			} else {
@@ -2820,7 +2820,7 @@ static void OPB_OpenArrParCheck (OPT_Struct ftyp, OPT_Struct atyp, BOOLEAN fvarp
 	atyp = atyp->BaseTyp;
 	if (ftyp == OPT_bytetyp) {
 		if (!__IN(f, 0x3c, 32) || !__IN(atyp->form, 0x1e, 32)) {
-			OPB_err(-301);
+			//OPB_err(-301); TODO
 		}
 	} else if (__IN(f, 0x3c, 32)) {
 		if (ftyp->comp == 5) {

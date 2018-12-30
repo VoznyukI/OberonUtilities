@@ -345,7 +345,8 @@ void Oberon_GetSelection (Texts_Text *text, INT32 *beg, INT32 *end, INT32 *time)
 
 void Oberon_Collect (void)
 {
-	Kernel_GC();
+    //TODO
+	//Kernel_GC();
 }
 
 static void Oberon_SkipGroup (Texts_Scanner *S, ADDRESS *S__typ)
@@ -369,7 +370,7 @@ void Oberon_OpenScanner (Texts_Scanner *S, ADDRESS *S__typ, CHAR *name, ADDRESS 
 	INT16 i, j;
 	BOOLEAN done, eos;
 	CHAR part[32];
-	OFS_File f;
+	Files_File f;
 	INT32 t, d;
 	__DUP(name, name__len, CHAR);
 	f = Files_Old((CHAR*)"Oberon.Text", 12);
@@ -534,5 +535,11 @@ export void *Oberon__init(void)
 	Oberon_conftime = -1;
 	Oberon_confdate = -1;
 	__NEW(Oberon_conftext, Texts_TextDesc);
+
+	__NEW(Oberon_Log, Texts_TextDesc);
+	Texts_Open(Oberon_Log, (CHAR*)"System.Log", 11);
+
+	__NEW(Oberon_Par, Oberon_ParRec);
+
 	__ENDMOD;
 }

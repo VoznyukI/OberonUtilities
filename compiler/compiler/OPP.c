@@ -1799,6 +1799,9 @@ static void OPP_Factor (OPT_Node *x)
 	OPT_Object fpar, id;
 	OPT_Node apar, y;
 	OPS_Name name;
+
+    id = NIL; //TODO
+
 	if (OPP_sym < 30) {
 		OPP_err(13);
 		do {
@@ -2054,6 +2057,7 @@ static void Receiver__58 (void);
 
 static void GetParam__56 (void)
 {
+    *ProcedureDeclaration__53_s->sysflag = 0;
 	(*ProcedureDeclaration__53_s->proc)->typ = OPT_notyp;
 	(*ProcedureDeclaration__53_s->proc)->link = NIL;
 	(*ProcedureDeclaration__53_s->proc)->sysflag = *ProcedureDeclaration__53_s->sysflag;
@@ -2808,6 +2812,13 @@ static void OPP_StatSeq (OPT_Node *stat)
 	StatSeq__67_s = &_s;
 	*stat = NIL;
 	last = NIL;
+
+    //TODO
+    fpar = NIL, id = NIL, t = NIL, obj = NIL, owner = NIL, op = NIL;
+	typ = NIL, idtyp = NIL;
+	x1 = NIL, x2 = NIL, s = NIL, x = NIL, y = NIL, z = NIL, apar = NIL, last = NIL, lastif = NIL;
+	ts = NIL;
+
 	OPP_UndefFlag = 0;
 	for (;;) {
 		x = NIL;
@@ -3124,9 +3135,9 @@ static void OPP_StatSeq (OPT_Node *stat)
 				if (OPP_sym == 40) {
 					OPP_qualident(&id);
 					y = OPB_NewLeaf(id);
-					if ((((id != NIL && id->typ->form == 13)) && (id->mode == 2 || !id->leaf))) {
-						OPP_err(-302);
-					}
+					//if ((((id != NIL && id->typ->form == 13)) && (id->mode == 2 || !id->leaf))) { //TODO
+					//	OPP_err(-302);
+					//}
 					OPP_CheckSym(20);
 					if (OPP_sym == 40) {
 						OPP_qualident(&t);

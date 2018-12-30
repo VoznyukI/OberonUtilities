@@ -1138,6 +1138,9 @@ static void OPV_Expression (OPT_Node n, OPC_Item *z, ADDRESS *z__typ, OPT_Node s
 	_s.lnk = Expression__27_s;
 	Expression__27_s = &_s;
 	(*z).node = NIL;
+
+    x.node = NIL; //TODO
+
 	switch (n->class) {
 		case 7: 
 			(*z).typ = n->typ;

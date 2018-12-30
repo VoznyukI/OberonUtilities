@@ -15,9 +15,13 @@ typedef
 	CHAR OPS_String[256];
 
 typedef
+	struct OPS_Tok *OPS_Token;
+
+typedef
 	struct OPS_Tok {
-		INT32 _prvt0;
-		char _prvt1[8];
+		INT32 pos;
+		INT8 sym;
+		OPS_Token next;
 	} OPS_Tok;
 
 typedef

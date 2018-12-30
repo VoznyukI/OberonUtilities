@@ -6,6 +6,7 @@
 #define SET      UINT32
 
 #include "SYSTEM.h"
+#include "Objects.h"
 #include "Files.h"
 #include "Kernel.h"
 #include "Modules.h"
@@ -13,8 +14,8 @@
 typedef
 	struct Objects_AliasDesc *Objects_Alias;
 
-typedef
-	CHAR Objects_Name[32];
+//typedef
+//	CHAR Objects_Name[32];
 
 typedef
 	struct Objects_LibDesc *Objects_Library;
@@ -29,10 +30,10 @@ typedef
 typedef
 	struct Objects_ArrayIndexDesc *Objects_ArrayIndex;
 
-typedef
-	struct Objects_IndexDesc {
-		char _prvt0[1];
-	} Objects_IndexDesc;
+//typedef
+//	struct Objects_IndexDesc {
+//		char _prvt0[1];
+//	} Objects_IndexDesc;
 
 typedef
 	struct Objects_ObjDesc *Objects_Object;
@@ -50,80 +51,80 @@ typedef
 		INT16 size;
 	} Objects_ArrayIndexDesc;
 
-typedef
-	struct Objects_ObjMsg {
-		INT32 stamp;
-		Objects_Object dlink;
-	} Objects_ObjMsg;
+//typedef
+//	struct Objects_ObjMsg {
+//		INT32 stamp;
+//		Objects_Object dlink;
+//	} Objects_ObjMsg;
 
-typedef
-	struct Objects_AttrMsg { /* Objects_ObjMsg */
-		INT32 stamp;
-		Objects_Object dlink;
-		INT16 id;
-		void (*Enum)(CHAR*, ADDRESS );
-		Objects_Name name;
-		INT16 res, class;
-		INT32 i;
-		REAL x;
-		LONGREAL y;
-		CHAR c;
-		BOOLEAN b;
-		CHAR s[64];
-	} Objects_AttrMsg;
+//typedef
+//	struct Objects_AttrMsg { /* Objects_ObjMsg */
+//		INT32 stamp;
+//		Objects_Object dlink;
+//		INT16 id;
+//		void (*Enum)(CHAR*, ADDRESS );
+//		Objects_Name name;
+//		INT16 res, class;
+//		INT32 i;
+//		REAL x;
+//		LONGREAL y;
+//		CHAR c;
+//		BOOLEAN b;
+//		CHAR s[64];
+//	} Objects_AttrMsg;
 
-typedef
-	struct Objects_BindMsg { /* Objects_ObjMsg */
-		INT32 stamp;
-		Objects_Object dlink;
-		Objects_Library lib;
-	} Objects_BindMsg;
+//typedef
+//	struct Objects_BindMsg { /* Objects_ObjMsg */
+//		INT32 stamp;
+//		Objects_Object dlink;
+//		Objects_Library lib;
+//	} Objects_BindMsg;
 
-typedef
-	struct Objects_CopyMsg { /* Objects_ObjMsg */
-		INT32 stamp;
-		Objects_Object dlink;
-		INT16 id;
-		Objects_Object obj;
-	} Objects_CopyMsg;
+//typedef
+//	struct Objects_CopyMsg { /* Objects_ObjMsg */
+//		INT32 stamp;
+//		Objects_Object dlink;
+//		INT16 id;
+//		Objects_Object obj;
+//	} Objects_CopyMsg;
 
-typedef
-	struct Objects_DictionaryDesc *Objects_Dictionary;
+//typedef
+//	struct Objects_DictionaryDesc *Objects_Dictionary;
 
-typedef
-	struct Objects_DictionaryDesc {
-		char _prvt0[1];
-	} Objects_DictionaryDesc;
+//typedef
+//	struct Objects_DictionaryDesc {
+//		char _prvt0[1];
+//	} Objects_DictionaryDesc;
 
-typedef
-	struct Objects_DummyDesc *Objects_Dummy;
+//typedef
+//	struct Objects_DummyDesc *Objects_Dummy;
 
-typedef
-	void (*Objects_Handler)(Objects_Object, Objects_ObjMsg*, ADDRESS *);
+//typedef
+//	void (*Objects_Handler)(Objects_Object, Objects_ObjMsg*, ADDRESS *);
 
-typedef
-	struct Objects_ObjDesc {
-		INT32 stamp;
-		Objects_Object dlink, slink;
-		Objects_Library lib;
-		INT16 ref;
-		Objects_Handler handle;
-	} Objects_ObjDesc;
+//typedef
+//	struct Objects_ObjDesc {
+//		INT32 stamp;
+//		Objects_Object dlink, slink;
+//		Objects_Library lib;
+//		INT16 ref;
+//		Objects_Handler handle;
+//	} Objects_ObjDesc;
 
-typedef
-	struct Objects_DummyDesc { /* Objects_ObjDesc */
-		INT32 stamp;
-		Objects_Object dlink, slink;
-		Objects_Library lib;
-		INT16 ref;
-		Objects_Handler handle;
-		Objects_Name GName;
-		INT32 len;
-		struct {
-			ADDRESS len[1];
-			CHAR data[1];
-		} *blk;
-	} Objects_DummyDesc;
+//typedef
+//	struct Objects_DummyDesc { /* Objects_ObjDesc */
+//		INT32 stamp;
+//		Objects_Object dlink, slink;
+//		Objects_Library lib;
+//		INT16 ref;
+//		Objects_Handler handle;
+//		Objects_Name GName;
+//		INT32 len;
+//		struct {
+//			ADDRESS len[1];
+//			CHAR data[1];
+//		} *blk;
+//	} Objects_DummyDesc;
 
 typedef
 	struct Objects_EntryDesc *Objects_Entry;
@@ -135,25 +136,25 @@ typedef
 		Objects_Name name;
 	} Objects_EntryDesc;
 
-typedef
-	void (*Objects_EnumProc)(Objects_Library);
+//typedef
+//	void (*Objects_EnumProc)(Objects_Library);
 
-typedef
-	struct Objects_FileMsg { /* Objects_ObjMsg */
-		INT32 stamp;
-		Objects_Object dlink;
-		INT16 id;
-		INT32 len;
-		OFS_Rider R;
-	} Objects_FileMsg;
+//typedef
+//	struct Objects_FileMsg { /* Objects_ObjMsg */
+//		INT32 stamp;
+//		Objects_Object dlink;
+//		INT16 id;
+//		INT32 len;
+//		Files_Rider R;
+//	} Objects_FileMsg;
 
-typedef
-	struct Objects_FindMsg { /* Objects_ObjMsg */
-		INT32 stamp;
-		Objects_Object dlink;
-		Objects_Name name;
-		Objects_Object obj;
-	} Objects_FindMsg;
+//typedef
+//	struct Objects_FindMsg { /* Objects_ObjMsg */
+//		INT32 stamp;
+//		Objects_Object dlink;
+//		Objects_Name name;
+//		Objects_Object obj;
+//	} Objects_FindMsg;
 
 typedef
 	CHAR Objects_GenName[64];
@@ -161,37 +162,37 @@ typedef
 typedef
 	Objects_IndexDesc *Objects_Index;
 
-typedef
-	struct Objects_LibDesc {
-		Objects_Library next;
-		Objects_Index ind;
-		OFS_File f;
-		OFS_Rider R;
-		Objects_Name name;
-		Objects_Dictionary dict;
-		INT16 maxref;
-		struct {
-			ADDRESS len[1];
-			Objects_GenName data[1];
-		} *GName;
-		void (*GenRef)(Objects_Library, INT16*);
-		void (*GetObj)(Objects_Library, INT16, Objects_Object*);
-		void (*PutObj)(Objects_Library, INT16, Objects_Object);
-		void (*FreeObj)(Objects_Library, INT16);
-		void (*Load)(Objects_Library);
-		void (*Store)(Objects_Library);
-	} Objects_LibDesc;
+//typedef
+//	struct Objects_LibDesc {
+//		Objects_Library next;
+//		Objects_Index ind;
+//		Files_File f;
+//		Files_Rider R;
+//		Objects_Name name;
+//		Objects_Dictionary dict;
+//		INT16 maxref;
+//		struct {
+//			ADDRESS len[1];
+//			Objects_GenName data[1];
+//		} *GName;
+//		void (*GenRef)(Objects_Library, INT16*);
+//		void (*GetObj)(Objects_Library, INT16, Objects_Object*);
+//		void (*PutObj)(Objects_Library, INT16, Objects_Object);
+//		void (*FreeObj)(Objects_Library, INT16);
+//		void (*Load)(Objects_Library);
+//		void (*Store)(Objects_Library);
+//	} Objects_LibDesc;
 
-typedef
-	struct Objects_LinkMsg { /* Objects_ObjMsg */
-		INT32 stamp;
-		Objects_Object dlink;
-		INT16 id;
-		void (*Enum)(CHAR*, ADDRESS );
-		Objects_Name name;
-		INT16 res;
-		Objects_Object obj;
-	} Objects_LinkMsg;
+//typedef
+//	struct Objects_LinkMsg { /* Objects_ObjMsg */
+//		INT32 stamp;
+//		Objects_Object dlink;
+//		INT16 id;
+//		void (*Enum)(CHAR*, ADDRESS );
+//		Objects_Name name;
+//		INT16 res;
+//		Objects_Object obj;
+//	} Objects_LinkMsg;
 
 typedef
 	struct Objects_ListDictDesc *Objects_ListDict;
@@ -250,7 +251,7 @@ static void Objects_GetObj (Objects_Library L, INT16 ref, Objects_Object *obj);
 export void Objects_GetRef (Objects_Dictionary *D, CHAR *name, ADDRESS name__len, INT16 *ref);
 static void Objects_HandleDummy (Objects_Object obj, Objects_ObjMsg *M, ADDRESS *M__typ);
 static void Objects_LoadFileLib (Objects_Library L);
-export void Objects_LoadLibrary (Objects_Library L, OFS_File f, INT32 pos, INT32 *len);
+export void Objects_LoadLibrary (Objects_Library L, Files_File f, INT32 pos, INT32 *len);
 static BOOLEAN Objects_Match (CHAR *s, ADDRESS s__len, CHAR *ext, ADDRESS ext__len, INT16 *len);
 static void Objects_NewDummy (CHAR *GName, ADDRESS GName__len);
 static Objects_Library Objects_NewLibrary (void);
@@ -258,12 +259,12 @@ static void Objects_OldLoadLibrary (Objects_Library L, OFS_File f, INT32 pos, IN
 export void Objects_OpenLibrary (Objects_Library L);
 export void Objects_PutName (Objects_Dictionary *D, INT16 key, CHAR *name, ADDRESS name__len);
 static void Objects_PutObj (Objects_Library L, INT16 ref, Objects_Object obj);
-static void Objects_ReadName (OFS_Rider *R, ADDRESS *R__typ, CHAR *name, ADDRESS name__len);
+static void Objects_ReadName (Files_Rider *R, ADDRESS *R__typ, CHAR *name, ADDRESS name__len);
 export void Objects_Register (CHAR *ext, ADDRESS ext__len, Objects_NewProc new);
 static void Objects_SplitName (CHAR *name, ADDRESS name__len, CHAR *MName, ADDRESS MName__len, CHAR *PName, ADDRESS PName__len);
 export void Objects_Stamp (Objects_ObjMsg *M, ADDRESS *M__typ);
 static void Objects_StoreFileLib (Objects_Library L);
-export void Objects_StoreLibrary (Objects_Library L, OFS_File f, INT32 pos, INT32 *len);
+export void Objects_StoreLibrary (Objects_Library L, Files_File f, INT32 pos, INT32 *len);
 export Objects_Library Objects_ThisLibrary (CHAR *name, ADDRESS name__len);
 
 
@@ -424,7 +425,7 @@ void Objects_Register (CHAR *ext, ADDRESS ext__len, Objects_NewProc new)
 	__DEL(ext);
 }
 
-static void Objects_ReadName (OFS_Rider *R, ADDRESS *R__typ, CHAR *name, ADDRESS name__len)
+static void Objects_ReadName (Files_Rider *R, ADDRESS *R__typ, CHAR *name, ADDRESS name__len)
 {
 	INT16 i;
 	CHAR ch;
@@ -544,7 +545,7 @@ static void Objects_GetObj (Objects_Library L, INT16 ref, Objects_Object *obj)
 				if (Modules_res == 0) {
 					Cmd = Modules_ThisCommand(Mod, PName, 32);
 					if (Modules_res == 0) {
-						(*Cmd)();
+						//(*Cmd)(); //TODO
 					} else {
 						Objects_NewDummy((void*)(L->GName->data)[__X(n, L->GName->len[0])], 64);
 					}
@@ -626,7 +627,7 @@ static void Objects_GenRef (Objects_Library L, INT16 *ref)
 
 static void Objects_OldLoadLibrary (Objects_Library L, OFS_File f, INT32 pos, INT32 *len)
 {
-	OFS_Rider R, S;
+	Files_Rider R, S;
 	Kernel_Module Mod;
 	Kernel_Proc Cmd;
 	INT16 NofRuns, key, N, i, k, m;
@@ -733,14 +734,14 @@ static void Objects_OldLoadLibrary (Objects_Library L, OFS_File f, INT32 pos, IN
 	*len = (1 + clen) + dlen;
 }
 
-void Objects_LoadLibrary (Objects_Library L, OFS_File f, INT32 pos, INT32 *len)
+void Objects_LoadLibrary (Objects_Library L, Files_File f, INT32 pos, INT32 *len)
 {
 	Objects_ArrayIndex ind;
 	Objects_ListDict dict;
 	INT32 i, version, dorg, gorg;
 	INT16 key, n, N;
 	Objects_Entry entry;
-	OFS_Rider R;
+	Files_Rider R;
 	INT32 _for__14;
 	INT16 _for__13;
 	ind = __GUARDP(L->ind, Objects_ArrayIndexDesc, 1);
@@ -801,7 +802,7 @@ void Objects_LoadLibrary (Objects_Library L, OFS_File f, INT32 pos, INT32 *len)
 	}
 }
 
-void Objects_StoreLibrary (Objects_Library L, OFS_File f, INT32 pos, INT32 *len)
+void Objects_StoreLibrary (Objects_Library L, Files_File f, INT32 pos, INT32 *len)
 {
 	Objects_Object obj;
 	Objects_ArrayIndex ind;
@@ -810,7 +811,7 @@ void Objects_StoreLibrary (Objects_Library L, OFS_File f, INT32 pos, INT32 *len)
 	Objects_Entry entry;
 	CHAR ch;
 	Objects_GenName GName[64];
-	OFS_Rider R, indR;
+	Files_Rider R, indR;
 	Objects_FileMsg M;
 	Objects_AttrMsg A;
 	INT32 _for__30;
@@ -921,8 +922,8 @@ void Objects_StoreLibrary (Objects_Library L, OFS_File f, INT32 pos, INT32 *len)
 
 static void Objects_LoadFileLib (Objects_Library L)
 {
-	OFS_File f;
-	OFS_Rider R;
+	Files_File f;
+	Files_Rider R;
 	INT32 len;
 	CHAR id;
 	f = Files_Old(L->name, 32);
@@ -941,7 +942,7 @@ static void Objects_LoadFileLib (Objects_Library L)
 
 static void Objects_StoreFileLib (Objects_Library L)
 {
-	OFS_File f;
+	Files_File f;
 	INT32 len;
 	f = Files_New(L->name, 32);
 	if (f != NIL) {
@@ -1002,6 +1003,7 @@ void Objects_GetRef (Objects_Dictionary *D, CHAR *name, ADDRESS name__len, INT16
 
 void Objects_GetKey (Objects_Dictionary *D, CHAR *name, ADDRESS name__len, INT16 *key)
 {
+    //TODO see Objects.Mod
 	Objects_Entry cur;
 	__DUP(name, name__len, CHAR);
 	if (__ISP(*D, Objects_ListDictDesc, 1)) {
@@ -1031,6 +1033,7 @@ void Objects_GetName (Objects_Dictionary *D, INT16 key, CHAR *name, ADDRESS name
 
 void Objects_PutName (Objects_Dictionary *D, INT16 key, CHAR *name, ADDRESS name__len)
 {
+    //TODO see Objects.Mod
 	Objects_Entry cur;
 	__DUP(name, name__len, CHAR);
 	if (__ISP(*D, Objects_ListDictDesc, 1)) {
