@@ -1,0 +1,13 @@
+del DisplaysDisplay.Obj
+del GD54xxDisplay.Obj
+del S3C805Display.Obj
+del S3C924Display.Obj
+del S3TrioDisplay.Obj
+del S3TrioCDisplay.Obj
+del SVGADisplay.Obj
+del SVGAHDisplay.Obj
+del SVGALDisplay.Obj
+del TraceDisplay.Obj
+del VGADisplay.Obj
+del W32Display.Obj
+del EmptyDisplay.Obj
