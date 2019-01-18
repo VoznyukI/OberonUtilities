@@ -112,7 +112,7 @@ Trace.Display.Mod
 VGA.Display.Mod
 W32.Display.Mod
 
-You can find the difference only in the file name that is specified in the * .Obj file for manipulated files. It can be checked with the help of binary comparison (for example, using Araxis Merge[Araxis Merge](https://www.araxis.com/merge/index.en)).
+You can find the difference only in the file name that is specified in the * .Obj file for manipulated files. It can be checked with the help of binary comparison (for example, using [Araxis Merge](https://www.araxis.com/merge/index.en)).
 
 ##### 5.6
 There are no corresponding * .Mod files for files IFWC31.Display.Obj and DisplayPermedia2.Obj from  [Native Oberon](https://sourceforge.net/projects/nativeoberon).
