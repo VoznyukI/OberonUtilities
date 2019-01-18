@@ -58,9 +58,12 @@ The Oberon-2 compiler is translated into the C language with the help of the VOC
 
 # 4. Compiler
 
-The project compiler uses the realisation of the module File.Mod from the project voc. It's done for working with the window's file sistem.
+The compiler uses the realisation of the module File.Mod from the project voc. It's done for working with the window's file sistem.
 
 The compiler requires the following files:
+* Oberon.Text
+* Oberon10.Scn.Fnt
+* OPA.Data
 
 # 5. Testing
 
@@ -100,22 +103,22 @@ There is no Display.Mod file in the source files. In order to get Display.Obj, y
 Similarly, there is no CD.Mod file in the source files. To do this, rename Empty.CD.Mod to CD.Mod and compile. The Empty.CD.Obj is exactly matched the CD.Obj file.
 
 Similar manipulations are done with the following files:
-GD54xx.Display.Mod
-S3C805.Display.Mod
-S3C924.Display.Mod
-S3Trio.Display.Mod
-S3TrioC.Display.Mod
-SVGA.Display.Mod
-SVGAH.Display.Mod
-SVGAL.Display.Mod
-Trace.Display.Mod
-VGA.Display.Mod
-W32.Display.Mod
+* GD54xx.Display.Mod
+* S3C805.Display.Mod
+* S3C924.Display.Mod
+* S3Trio.Display.Mod
+* S3TrioC.Display.Mod
+* SVGA.Display.Mod
+* SVGAH.Display.Mod
+* SVGAL.Display.Mod
+* Trace.Display.Mod
+* VGA.Display.Mod
+* W32.Display.Mod
 
 You can find the difference only in the file name that is specified in the * .Obj file for manipulated files. It can be checked with the help of binary comparison (for example, using [Araxis Merge](https://www.araxis.com/merge/index.en)).
 
 ##### 5.6
-There are no corresponding * .Mod files for files IFWC31.Display.Obj and DisplayPermedia2.Obj from  [Native Oberon](https://sourceforge.net/projects/nativeoberon).
+There are no corresponding * .Mod files for files IFWC31.Display.Obj and DisplayPermedia2.Obj from  [Native Oberon](https://sourceforge.net/projects/nativeoberon). And there is corresponding * .Obj file for the file DisplayBackdrop.Mod from  [Native Oberon](https://sourceforge.net/projects/nativeoberon) too.
 
 ##### 5.7 
 There are files for which it is not possible to obtain exact correspondence with * .Obj files after compilation:
