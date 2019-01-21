@@ -67,11 +67,11 @@ The compiler requires the following files:
 * Oberon10.Scn.Fnt
 * OPA.Data
 
-To compile all the object files you have to repeatedly click compile_log.bat.
+To compile all the object files you have to repeatedly click [compile_log.bat](https://github.com/VoznyukI/OberonUtilities/blob/master/obj/compile_log.bat).
 
 # 5. Testing
 
-An obvious test for this work is the comparison of the object files obtained by this cross-compiler with those are found in [Native Oberon](https://sourceforge.net/projects/nativeoberon). You can compare the object files obtained from the Native Oberon project([no_obj](https://github.com/VoznyukI/OberonUtilities/tree/master/no_obj)) and compiled by this compiler([obj](https://github.com/VoznyukI/OberonUtilities/tree/master/obj)), for example, using [Araxis Merge](https://www.araxis.com/merge/index.en). For a complete binary match between these target files, some manipulations have to be done.
+An obvious test for this work is the comparison of the object files obtained by this cross-compiler with those are found in [Native Oberon](https://sourceforge.net/projects/nativeoberon). You can compare the object files obtained from the Native Oberon project (see [no_obj](https://github.com/VoznyukI/OberonUtilities/tree/master/no_obj)) and compiled by this compiler (see [obj](https://github.com/VoznyukI/OberonUtilities/tree/master/obj)), for example, using [Araxis Merge](https://www.araxis.com/merge/index.en). For a complete binary match between these target files, some manipulations have to be done.
 
 ##### 5.1 
 It is necessary to change the import order of modules (IMPORT) in some * .Mod files, for example, in the BMP.Mod, XPM.Mod files.
