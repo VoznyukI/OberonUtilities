@@ -1,7 +1,7 @@
 Make it as simple as possible, but not simpler.
 A. Einstein
 
-# 1 . Introduction
+# 1. Introduction
 
 For educational and informational purposes, my attention was attracted to the project [Oberon Niklaus Wirth](https://en.wikipedia.org/wiki/Oberon_(operating_system)). [Wirth's thesis on the simplicity and reliability of software](https://www.amazon.com/School-Niklaus-Wirth-Art-Simplicity/dp/1558607234) is very attractive to me and is an example to follow.
 
@@ -58,7 +58,7 @@ The Oberon-2 compiler is translated into the C language with the help of the VOC
 
 # 4. Compiler
 
-For some reason, the release version of the compiler sometimes does not work as expected. In view of this, the debug version of the product is used.
+For some reason, the release version of the compiler sometimes does not work as expected. In view of this, the debug version of the [product](https://github.com/VoznyukI/OberonUtilities/blob/master/obj/compiler.exe) is used.
 
 The compiler uses the realisation of the module File.Mod from the project voc. It's done for working with the window's file sistem.
 
@@ -137,7 +137,7 @@ To work with * .Obj files, a console utility [view_obj](https://github.com/Vozny
 
 # 7. The results and future plans
 
-Thus, I have my own implementation of the Oberon cross-compiler at the moment. It is assumed to adapt the resulting compiler to generate object files for [Oberon system](https://github.com/Spirit-of-Oberon/ProjectOberonV4) in the future. Next, I intend to get my own implementation of the [Oberon operating system](https://github.com/Spirit-of-Oberon/ProjectOberonV4) (Some work has already been done for this). 
+Thus, I have my own implementation of the Oberon cross-compiler at the moment. It is assumed to adapt the resulting compiler to generate object files for [Oberon system](https://github.com/Spirit-of-Oberon/ProjectOberonV4) in the future. Next, I intend to get my own implementation of the [Oberon operating system](https://github.com/Spirit-of-Oberon/ProjectOberonV4). (Some work has already been done for this). 
 
 # 8. System Requirements
 
