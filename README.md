@@ -54,9 +54,11 @@ There is one of the many continuations of the Oberon project  - [Native Oberon](
 
 I am very lucky that I found the project [Vishap Oberon Compiler (VOC)](https://github.com/vishaps/voc/), which, in fact, is the Oberon-2 language translator into C language. It is necessary to add several built-in functions and interpret some errors as warnings in order for VOC to be able to translate the original Native Oberon project codes (see history of the VOC project).
 
-The Oberon-2 compiler is translated into the C language with the help of the VOC. And I managed to compile all the source codes of the Native Oberon project into its own * .Obj format with the help of this C compiler. (see run_voc.bat)
+The Oberon-2 compiler is translated into the C language with the help of the VOC. And I managed to compile all the source codes of the Native Oberon project into its own * .Obj format with the help of this C compiler.
 
 # 4. Compiler
+
+For some reason, the release version of the compiler sometimes does not work as expected. In view of this, the debug version of the product is used.
 
 The compiler uses the realisation of the module File.Mod from the project voc. It's done for working with the window's file sistem.
 
@@ -65,9 +67,11 @@ The compiler requires the following files:
 * Oberon10.Scn.Fnt
 * OPA.Data
 
+To compile all the object files you have to repeatedly click compile_log.bat.
+
 # 5. Testing
 
-An obvious test for this work is the comparison of the object files obtained by this cross-compiler with those are found in [Native Oberon](https://sourceforge.net/projects/nativeoberon). For a complete binary match between these target files, some manipulations have to be done.
+An obvious test for this work is the comparison of the object files obtained by this cross-compiler with those are found in [Native Oberon](https://sourceforge.net/projects/nativeoberon). You can compare the object files obtained from the Native Oberon project([no_obj](https://github.com/VoznyukI/OberonUtilities/tree/master/no_obj)) and compiled by this compiler([obj](https://github.com/VoznyukI/OberonUtilities/tree/master/obj)), for example, using [Araxis Merge](https://www.araxis.com/merge/index.en). For a complete binary match between these target files, some manipulations have to be done.
 
 ##### 5.1 
 It is necessary to change the import order of modules (IMPORT) in some * .Mod files, for example, in the BMP.Mod, XPM.Mod files.
