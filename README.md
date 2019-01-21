@@ -122,7 +122,7 @@ Similar manipulations are done with the following files:
 You can find the difference only in the file name that is specified in the * .Obj file for manipulated files. It can be checked with the help of binary comparison (for example, using [Araxis Merge](https://www.araxis.com/merge/index.en)).
 
 ##### 5.6
-There are no corresponding * .Mod files for files IFWC31.Display.Obj and DisplayPermedia2.Obj from  [Native Oberon](https://sourceforge.net/projects/nativeoberon). And there is corresponding * .Obj file for the file DisplayBackdrop.Mod from  [Native Oberon](https://sourceforge.net/projects/nativeoberon) too.
+There are no corresponding * .Mod files for files IFWC31.Display.Obj and DisplayPermedia2.Obj from  [Native Oberon](https://sourceforge.net/projects/nativeoberon). And there is no corresponding * .Obj file for the file DisplayBackdrop.Mod from  [Native Oberon](https://sourceforge.net/projects/nativeoberon) too.
 
 ##### 5.7 
 There are files for which it is not possible to obtain exact correspondence with * .Obj files after compilation:
@@ -133,12 +133,11 @@ There are files for which it is not possible to obtain exact correspondence with
 
 # 6. Utility view_obj
 
-To work with * .Obj files, a console utility view_obj is developed that reads this [binary format](http://www.ethoberon.ethz.ch/native/compiler/obj081200/ObjectFile.html) and displays it in text form. It should be noted that there are some differences between [the document](http://www.ethoberon.ethz.ch/native/compiler/obj081200/ObjectFile.html) and the implementation of * .Obj in Native Oberon.
-(Net3Com509_Obj.txt) TODO
+To work with * .Obj files, a console utility [view_obj](https://github.com/VoznyukI/OberonUtilities/blob/master/view_obj/view_obj.exe) is developed that reads this [binary format](http://www.ethoberon.ethz.ch/native/compiler/obj081200/ObjectFile.html) and displays it in text form. It should be noted that there are some differences between [the document](http://www.ethoberon.ethz.ch/native/compiler/obj081200/ObjectFile.html) and the implementation of * .Obj in Native Oberon.
 
 # 7. The results and future plans
 
-Thus, I have my own implementation of the Oberon cross-compiler at the moment. It is assumed to adapt the resulting compiler to generate object files for [Oberon system](https://github.com/Spirit-of-Oberon/ProjectOberonV4) in the future.
+Thus, I have my own implementation of the Oberon cross-compiler at the moment. It is assumed to adapt the resulting compiler to generate object files for [Oberon system](https://github.com/Spirit-of-Oberon/ProjectOberonV4) in the future. Next, I intend to get my own implementation of the [Oberon operating system](https://github.com/Spirit-of-Oberon/ProjectOberonV4) (Some work has already been done for this). 
 
 # 8. System Requirements
 
